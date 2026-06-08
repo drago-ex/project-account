@@ -19,3 +19,17 @@ Updating user profile.
 ```bash
 composer require drago-ex/project-user-profile
 ```
+
+## Usage
+The package adds a backend `UserProfile` presenter with a profile component.
+It uses `drago-ex/project-auth` services for the current user, repository access
+and password hashing.
+
+```latte
+{control userProfile}
+```
+
+The component provides two forms:
+
+- profile information update
+- password change with current password verification
