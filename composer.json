@@ -1,0 +1,35 @@
+{
+	"name": "drago-ex/project-user-profile",
+	"type": "drago-tools-resource",
+	"description": "Updating user profile.",
+	"license": ["MIT"],
+	"require": {
+		"php": ">=8.3 <9",
+		"drago-ex/project-auth": "^2.0"
+	},
+	"extra": {
+		"drago-tools": {
+		  	"allow-library-install": true,
+			"install": {
+				"copy": {
+					"resources/app": "app"
+				}
+			}
+		}
+	},
+	"require-dev": {
+		"phpstan/phpstan-nette": "^2.0",
+		"drago-ex/project-tools": "^1.0"
+	},
+	"scripts": {
+		"phpstan": "phpstan analyse",
+		"post-install-cmd": [
+			"drago-install --dev",
+			"drago-clean"
+		],
+		"post-update-cmd": [
+			"drago-install --dev",
+			"drago-clean"
+		]
+	}
+}
