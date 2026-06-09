@@ -14,13 +14,15 @@ use Drago\Attr\AttributeDetectionException;
 use Drago\Form\Autocomplete;
 use Nette\Application\UI\Form;
 use Nette\Forms\Control;
-use Nette\Security\Identity;
 use Nette\Security\Passwords;
 use Nette\Security\User;
 
 
-/** User profile control. */
-class UserProfileControl extends ExtraControl
+/**
+ * User profile control.
+ * @property-read ProfileTemplate $template
+ */
+class ProfileControl extends ExtraControl
 {
 	public function __construct(
 		private readonly Factory $factory,
@@ -39,9 +41,8 @@ class UserProfileControl extends ExtraControl
 	public function render(): void
 	{
 		$template = $this->template;
-		$template->setFile(__DIR__ . '/userProfile.latte');
+		$template->setFile(__DIR__ . '/profile.latte');
 		$template->setTranslator($this->translator);
-		$template->userProfile = $this->getCurrentUser();
 		$template->render();
 	}
 
@@ -136,7 +137,6 @@ class UserProfileControl extends ExtraControl
 		$currentUser->username = (string) $values[UserEntity::ColumnUsername];
 		$currentUser->email = $email;
 		$this->userRepository->save($currentUser);
-		$this->updateIdentity($currentUser);
 
 		$this->flashMessage('Profile has been saved.', Alert::Success);
 		$this->redrawControl();
@@ -180,18 +180,5 @@ class UserProfileControl extends ExtraControl
 			$this->error('User not found.', 404);
 		}
 		return $user;
-	}
-
-
-	/** Updates current identity data after profile save. */
-	private function updateIdentity(UserEntity $user): void
-	{
-		$identity = $this->user->getIdentity();
-		if (!$identity instanceof Identity) {
-			return;
-		}
-
-		$identity->__set(UserEntity::ColumnUsername, $user->username);
-		$identity->__set(UserEntity::ColumnEmail, $user->email);
 	}
 }

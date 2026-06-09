@@ -9,7 +9,6 @@ use Drago\Application\UI\ExtraTemplate;
 
 
 /** User profile template. */
-class UserProfileTemplate extends ExtraTemplate
+class ProfileTemplate extends ExtraTemplate
 {
-	public UserEntity $userProfile;
 }
