@@ -12,7 +12,8 @@
 			"allow-library-install": true,
 			"install": {
 				"copy": {
-					"resources/app": "app"
+					"resources/app": "app",
+					"resources/assets": "assets"
 				}
 			}
 		}

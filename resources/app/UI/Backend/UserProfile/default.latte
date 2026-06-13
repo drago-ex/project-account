@@ -1,5 +1,70 @@
 {templateType App\UI\Backend\UserProfile\UserProfileTemplate}
 {block content}
-	<h1 n:block="title" class="display-6 fs-2">{_'User profile'}</h1>
-	{control userProfile}
+
+	<section class="user-profile-hero">
+		<p class="text-body-secondary small fw-semibold mb-2">{_'Account'}</p>
+		<h1 n:block="title" class="display-6 fs-2 mb-2">{_'User profile'}</h1>
+		<p class="text-body-secondary mb-0">{_'Manage your personal information and account security.'}</p>
+	</section>
+
+	<div class="user-profile-card bg-body rounded-3 shadow-sm">
+		{embed '../../../Core/Widget/@tabs.latte',
+			tabs: [
+				[
+					id: 'profile-info',
+					label: 'Profile information',
+					heading: 'Profile information',
+					description: 'Update the name and email address used for your account.',
+					block: 'profileInfo',
+				],
+				[
+					id: 'profile-password',
+					label: 'Change password',
+					heading: 'Change password',
+					description: 'Use a strong password to keep your account protected.',
+					block: 'profilePassword',
+				],
+			],
+			headerClass: 'user-profile-tabs px-3 px-md-4 pt-3',
+			contentClass: 'p-3 p-md-4'
+		}
+			{block profileInfo}
+				<div class="user-profile-section">
+					<div class="user-profile-form">
+						{snippet profile}
+							{embed '../../../Core/Widget/@form.latte', class: 'ajax', name: 'userProfile', najaHistory: 'off'}
+								{block form}
+									{include input, name: 'username', columns: 12}
+									{include input, name: 'email', columns: 12}
+									<div class="col-12">
+										{include submit, name: 'send'}
+									</div>
+								{/block}
+							{/embed}
+						{/snippet}
+					</div>
+				</div>
+			{/block}
+
+			{block profilePassword}
+				<div class="user-profile-section">
+					<div class="user-profile-form">
+						{snippet changePassword}
+							{embed '../../../Core/Widget/@form.latte', class: 'ajax', name: 'userChangePassword', najaHistory: 'off'}
+								{import '../../../Core/Widget/@form-password.latte'}
+								{block form}
+									{include password-toggle, name: 'currentPassword'}
+									{include password-toggle, name: 'password'}
+									{include password-toggle, name: 'verify'}
+									<div class="col-12">
+										{include submit, name: 'send'}
+									</div>
+								{/block}
+							{/embed}
+						{/snippet}
+					</div>
+				</div>
+			{/block}
+		{/embed}
+	</div>
 {/block}
