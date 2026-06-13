@@ -24,7 +24,7 @@ final class UserProfilePresenter extends BackendPresenter
 
 	public function __construct(
 		private readonly ChangePasswordFactory $changePasswordFactory,
-		private readonly UserProfileFactory $userProfileFactory
+		private readonly UserProfileFactory $userProfileFactory,
 	) {
 		parent::__construct();
 	}

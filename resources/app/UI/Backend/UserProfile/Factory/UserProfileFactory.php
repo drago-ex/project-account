@@ -18,6 +18,7 @@ class UserProfileFactory
 {
 	public Translator $translator;
 
+
 	public function __construct(
 		private readonly Factory $factory,
 		private readonly UserFactory $userFactory,

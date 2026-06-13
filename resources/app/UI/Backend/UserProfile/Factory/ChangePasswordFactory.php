@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\UI\Backend\UserProfile\Factory;
 
@@ -20,6 +20,7 @@ class ChangePasswordFactory
 {
 	public Translator $translator;
 
+
 	public function __construct(
 		private readonly Factory $factory,
 		private readonly UserFactory $userFactory,
@@ -37,7 +38,8 @@ class ChangePasswordFactory
 			->setPlaceholder('Current password')
 			->setRequired('Please enter your current password.')
 			->setAutocomplete(Autocomplete::CurrentPassword)
-			->addRule(fn(Control $input): bool => $this->checkCurrentPassword($input),
+			->addRule(
+				fn(Control $input): bool => $this->checkCurrentPassword($input),
 				'Current password is incorrect.',
 			);
 
@@ -80,7 +82,7 @@ class ChangePasswordFactory
 		return $this->passwords->verify(
 			(string) $input->getValue(),
 			$this->userFactory->getCurrentUser()
-				->password
+				->password,
 		);
 	}
 }
