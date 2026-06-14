@@ -22,40 +22,33 @@
 			</a>
 
 			<div class="ms-auto d-flex align-items-center">
-				{embed '../../../Core/Widget/@dropdown.latte', class: 'me-3'}
-					{block toggle}
-						<i class="fa-solid fa-bars"></i>
-						<span>{_'Menu'}</span>
-					{/block}
+				{embed '../../../Core/Widget/@dropdown.latte', name: 'Languages', icon: 'fa-solid fa-language', class: 'me-3', end: true}
+					{import '../../../Core/Widget/@lang-switch.latte'}
 					{block menu}
-						<li><a class="dropdown-item" n:href=":Front:Home:">{_'Homepage'}</a></li>
-						<li><a class="dropdown-item" n:href="Admin:">{_'Administration'}</a></li>
-						<li>
-							<button
-								class="dropdown-item theme-switcher"
-								type="button"
-								aria-label="{_'Toggle theme'}"
-								data-theme-switcher
-								data-theme-light-label="{_'Light mode'}"
-								data-theme-dark-label="{_'Dark mode'}"
-							>
-								<i data-theme-switcher-icon class="fa-solid fa-moon"></i>
-								<span data-theme-switcher-label>{_'Dark mode'}</span>
-							</button>
-						</li>
-						<li><hr class="dropdown-divider"></li>
-						<li><a class="dropdown-item" n:href="Sign:out">{_'Sign out'}</a></li>
+						{include lang-switch, lang: 'cs', name: 'Czech', class: 'dropdown-item', tag: 'li'}
+						{include lang-switch, lang: 'en', name: 'English', class: 'dropdown-item', tag: 'li'}
 					{/block}
 				{/embed}
 
-				{embed '../../../Core/Widget/@dropdown.latte', class: 'me-3', end: true}
-					{block toggle}
-						<i class="fa-solid fa-language"></i>
-						<span>{_'Languages'}</span>
-					{/block}
+				{embed '../../../Core/Widget/@dropdown.latte', name: 'Menu', icon: 'fa-solid fa-bars', class: 'me-3', end: true}
 					{block menu}
-						<li><a n:href="this, 'lang' => 'cs'" n:class="dropdown-item, $lang === 'cs' ? current">{_'Czech'}</a></li>
-						<li><a n:href="this, 'lang' => 'en'" n:class="dropdown-item, $lang === 'en' ? current">{_'English'}</a></li>
+						{include item, name: 'Homepage', link: ':Front:Home:'}
+						{include item, name: 'Administration', link: 'Admin:'}
+						{include divider}
+						<li>
+							<button
+									class="dropdown-item theme-switcher"
+									type="button"
+									aria-label="{_'Toggle theme'}"
+									data-theme-switcher
+									data-theme-light-label="{_'Light mode'}"
+									data-theme-dark-label="{_'Dark mode'}"
+							>
+								<span data-theme-switcher-label>{_'Dark mode'}</span>
+							</button>
+						</li>
+						{include divider}
+						{include item, name: 'Sign out', link: 'Sign:out'}
 					{/block}
 				{/embed}
 			</div>
