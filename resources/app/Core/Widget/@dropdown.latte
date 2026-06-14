@@ -2,13 +2,15 @@
 {default $class = null}
 {default $end = false}
 
+{do $buttonAttrs = [
+	'class' => 'btn btn-link nav-link dropdown-toggle py-2 px-0 border-0 text-decoration-none',
+	'type' => 'button',
+	'aria-expanded' => 'false',
+	'aria-atomic' => 'true',
+]}
+
 <div n:class="'dropdown app-dropdown', $end ? 'app-dropdown-end' : null, $class">
-	<button
-		class="btn btn-link nav-link dropdown-toggle py-2 px-0 border-0 text-decoration-none"
-		type="button"
-		aria-expanded="false"
-		data-app-dropdown-toggle
-	>
+	<button n:attr="$buttonAttrs" data-app-dropdown-toggle>
 		{block toggle}{/block}
 	</button>
 
