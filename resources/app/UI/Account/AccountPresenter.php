@@ -6,7 +6,7 @@ namespace App\UI\Account;
 
 use App\UI\Account\Factory\ChangePasswordFactory;
 use App\UI\Account\Factory\ProfileFactory;
-use App\UI\Backend\Sign\RequireLogged;
+use App\UI\Sign\RequireLogged;
 use App\UI\BasePresenter;
 use Drago\Application\UI\Alert;
 use Nette\Application\UI\Form;

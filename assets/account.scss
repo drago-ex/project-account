@@ -1,0 +1,98 @@
+@import "core/base";
+@import "drago-component/styles/dropdown";
+@import "@fortawesome/fontawesome-free/css/all.css";
+@import "dashboard-skeleton-compostrap/src/scss/dashboard";
+@import "naja/spinner";
+@import "drago-form/styles/password-toggle";
+
+//
+// account style
+//
+
+html,
+body {
+	min-height: 100%;
+}
+
+.account-page {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	padding-top: 3.5rem;
+	color: var(--bs-body-color);
+	background-color: var(--ds-body-bg);
+}
+
+.navbar {
+	background-color: var(--bs-body-bg) !important;
+}
+
+#theme-toggle {
+	padding: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.35rem;
+	font-size: 0.875rem;
+	color: var(--bs-navbar-color);
+	text-decoration: none;
+	transition: color 0.15s ease-in-out;
+
+	&:hover {
+		color: var(--bs-navbar-hover-color);
+	}
+
+	&:focus {
+		box-shadow: none;
+		outline: none;
+	}
+}
+
+.account-main {
+	width: 100%;
+	padding-block: 2rem;
+}
+
+.account-hero {
+	width: 100%;
+	max-width: 52rem;
+	margin-inline: auto;
+	margin-bottom: 1.5rem;
+}
+
+.account-card {
+	width: 100%;
+	max-width: 52rem;
+	margin-inline: auto;
+	overflow: hidden;
+	background-color: var(--bs-body-bg);
+}
+
+.account-tabs {
+	background-color: var(--bs-secondary-bg);
+
+	.nav-tabs {
+		border-bottom: 0;
+	}
+
+	.nav-link {
+		color: var(--bs-secondary-color);
+		border: 0;
+		border-radius: var(--bs-border-radius) var(--bs-border-radius) 0 0;
+		font-weight: 600;
+
+		&:hover,
+		&:focus {
+			color: var(--bs-body-color);
+		}
+
+		&.active {
+			color: var(--bs-body-color);
+			background-color: var(--bs-body-bg);
+		}
+	}
+}
+
+.account-footer {
+	background-color: transparent;
+}

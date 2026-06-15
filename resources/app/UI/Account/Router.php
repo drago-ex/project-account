@@ -17,8 +17,7 @@ final class Router
 	public static function create(): RouteList
 	{
 		$router = new RouteList;
-		$router->withModule('Account')
-			->addRoute('[<lang=cs cs|en>/]account/<presenter>/<action>', 'Account:default');
+		$router->addRoute('[<lang=cs cs|en>/]<presenter>/<action>', 'Account:default');
 
 		return $router;
 	}

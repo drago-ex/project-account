@@ -29,8 +29,8 @@ if ($generator === null) {
 // 1. Positional arguments with clear description.
 $positionalArgs = [
 	'className'   => 'PermissionProvider',
-	'namespace'   => 'App\\UI\\Account\\Account',
-	'resource'    => 'Account:Account',
+	'namespace'   => 'App\\UI\\Account',
+	'resource'    => 'Account',
 	'outputDir'   => 'app/UI/Front/Home',
 ];
 
