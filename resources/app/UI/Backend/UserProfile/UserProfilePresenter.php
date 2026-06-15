@@ -39,8 +39,9 @@ final class UserProfilePresenter extends BackendPresenter
 		$form = $this->changePasswordFactory->create();
 		$form->onSuccess[] = function () {
 			$this->flashMessage('Password change was successful.', Alert::Success);
-			$this->redrawControl();
 		};
+		$this->redrawControl('changePassword');
+		$this->redrawControl('message');
 		return $form;
 	}
 
@@ -54,8 +55,9 @@ final class UserProfilePresenter extends BackendPresenter
 		$form = $this->userProfileFactory->create();
 		$form->onSuccess[] = function () {
 			$this->flashMessage('Profile has been saved.', Alert::Success);
-			$this->redrawControl();
 		};
+		$this->redrawControl('profile');
+		$this->redrawControl('message');
 		return $form;
 	}
 }

@@ -38,10 +38,7 @@ class ChangePasswordFactory
 			->setPlaceholder('Current password')
 			->setRequired('Please enter your current password.')
 			->setAutocomplete(Autocomplete::CurrentPassword)
-			->addRule(
-				fn(Control $input): bool => $this->checkCurrentPassword($input),
-				'Current password is incorrect.',
-			);
+			->addRule($this->checkCurrentPassword(...), 'Current password is incorrect.');
 
 		$form->addPasswordField()
 			->setAutocomplete(Autocomplete::NewPassword)

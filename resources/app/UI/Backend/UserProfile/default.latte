@@ -15,20 +15,20 @@
 		label: 'Profile information',
 		heading: 'Profile information',
 		description: 'Update the name and email address used for your account.',
-		block: 'profileInfo',
+		block: 'profile',
 		],
 		[
 		id: 'profile-password',
 		label: 'Change password',
 		heading: 'Change password',
 		description: 'Use a strong password to keep your account protected.',
-		block: 'profilePassword',
+		block: 'changePassword',
 		],
 		],
 		headerClass: 'user-profile-tabs px-3 px-md-4 pt-3',
 		contentClass: 'p-3 p-md-4'
 		}
-			{block profileInfo}
+			{block profile}
 				{snippet profile}
 					{embed '../../../Core/Widget/@form.latte', class: 'ajax', name: 'userProfile', najaHistory: 'off'}
 						{block form}
@@ -42,7 +42,7 @@
 				{/snippet}
 			{/block}
 
-			{block profilePassword}
+			{block changePassword}
 				{snippet changePassword}
 					{embed '../../../Core/Widget/@form.latte', class: 'ajax', name: 'userChangePassword', najaHistory: 'off'}
 						{import '../../../Core/Widget/@form-password.latte'}
