@@ -22,6 +22,9 @@
 		"phpstan/phpstan-nette": "^2.0",
 		"drago-ex/project-tools": "^1.0"
 	},
+	"bin": [
+		"bin/create-account-permission"
+	],
 	"scripts": {
 		"phpstan": "phpstan analyse",
 		"post-install-cmd": [
