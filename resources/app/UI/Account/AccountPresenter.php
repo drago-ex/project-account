@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\UI\Backend\UserProfile;
+namespace App\UI\Account;
 
-use App\UI\Backend\BackendPresenter;
+use App\UI\Account\Factory\ChangePasswordFactory;
+use App\UI\Account\Factory\ProfileFactory;
 use App\UI\Backend\Sign\RequireLogged;
-use App\UI\Backend\UserProfile\Factory\ChangePasswordFactory;
-use App\UI\Backend\UserProfile\Factory\UserProfileFactory;
+use App\UI\BasePresenter;
 use Drago\Application\UI\Alert;
 use Nette\Application\UI\Form;
 use Nette\Neon\Exception;
@@ -15,16 +15,16 @@ use Throwable;
 
 
 /**
- * User profile presenter.
- * @property-read UserProfileTemplate $template
+ * Account presenter.
+ * @property-read AccountTemplate $template
  */
-final class UserProfilePresenter extends BackendPresenter
+final class AccountPresenter extends BasePresenter
 {
 	use RequireLogged;
 
 	public function __construct(
 		private readonly ChangePasswordFactory $changePasswordFactory,
-		private readonly UserProfileFactory $userProfileFactory,
+		private readonly ProfileFactory $profileFactory,
 	) {
 		parent::__construct();
 	}
@@ -34,7 +34,7 @@ final class UserProfilePresenter extends BackendPresenter
 	 * @throws Throwable
 	 * @throws Exception
 	 */
-	protected function createComponentUserChangePassword(): Form
+	protected function createComponentChangePassword(): Form
 	{
 		$form = $this->changePasswordFactory->create();
 		$form->onSuccess[] = function () {
@@ -50,9 +50,9 @@ final class UserProfilePresenter extends BackendPresenter
 	 * @throws Exception
 	 * @throws Throwable
 	 */
-	protected function createComponentUserProfile(): Form
+	protected function createComponentProfile(): Form
 	{
-		$form = $this->userProfileFactory->create();
+		$form = $this->profileFactory->create();
 		$form->onSuccess[] = function () {
 			$this->flashMessage('Profile has been saved.', Alert::Success);
 		};

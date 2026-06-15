@@ -1,7 +1,7 @@
 {
-	"name": "drago-ex/project-user-profile",
+	"name": "drago-ex/project-account",
 	"type": "drago-tools-resource",
-	"description": "Updating user profile.",
+	"description": "Account management for Drago Project.",
 	"license": ["MIT"],
 	"require": {
 		"php": ">=8.3 <9",

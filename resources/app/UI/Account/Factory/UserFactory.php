@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\UI\Backend\UserProfile\Factory;
+namespace App\UI\Account\Factory;
 
 use App\UI\Backend\Sign\User\UserEntity;
 use App\UI\Backend\Sign\User\UserRepository;

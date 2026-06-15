@@ -1,0 +1,4 @@
+services:
+
+	router: {setup: {offsetSet(null, @router.account)}}
+	router.account: {factory: App\UI\Account\Router::create, autowired: no}

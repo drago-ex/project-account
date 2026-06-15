@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\UI\Backend\UserProfile\Factory;
+namespace App\UI\Account\Factory;
 
 use App\UI\Backend\Sign\Factory;
 use App\UI\Backend\Sign\User\UserEntity;
@@ -14,7 +14,7 @@ use Drago\Localization\Translator;
 use Nette\Application\UI\Form;
 
 
-class UserProfileFactory
+class ProfileFactory
 {
 	public Translator $translator;
 
