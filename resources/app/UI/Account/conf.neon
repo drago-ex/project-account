@@ -1,4 +1,3 @@
-services:
-
-	router: {setup: {offsetSet(null, @router.account)}}
-	router.account: {factory: App\UI\Account\Router::create, autowired: no}
+routing:
+    routes:
+        '[<lang=cs cs|en>/]account/<action>/': Account:default
