@@ -20,6 +20,12 @@ Account management for Drago Project.
 composer require drago-ex/project-account
 ```
 
+### npm Installation
+The account management UI requires the theme switcher for proper functionality:
+```bash
+npm install theme-switcher-compostrap
+```
+
 ## Usage
 The package adds an `Account` presenter for managing the current user account.
 It is intentionally outside the frontend and backend modules, so the same account
