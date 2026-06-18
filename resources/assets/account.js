@@ -1,17 +1,16 @@
 // these JS + SCSS will be automatically available after installing the package
-import { registerNajaExtensions } from "./core/base.js";
-import { initAppDropdowns } from "drago-component/dropdown";
-import ThemeSwitcher from "theme-switcher-compostrap";
-import "bootstrap/js/dist/tab";
+import registerNajaExtensions from "./core/base.js";
 import Spinner from "./naja/spinner.js";
 import HyperlinkDisable from "./naja/hyperlink-disable.js";
+import ThemeSwitcher from "theme-switcher-compostrap";
+
+// drago-ex extensions
 import { PasswordToggle, SubmitButtonDisable } from "drago-form";
 import { ToastHandler } from "drago-application";
-import "./account.scss";
+import { BootstrapDropdowns } from "drago-component";
 
-document.addEventListener("DOMContentLoaded", () => {
-	initAppDropdowns();
-});
+// page styles
+import "./account.scss";
 
 new ThemeSwitcher().initialize();
 registerNajaExtensions(
@@ -19,5 +18,6 @@ registerNajaExtensions(
 	HyperlinkDisable,
 	PasswordToggle,
 	SubmitButtonDisable,
-	ToastHandler
+	ToastHandler,
+	BootstrapDropdowns
 );
