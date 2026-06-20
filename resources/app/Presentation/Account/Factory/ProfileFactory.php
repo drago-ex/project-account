@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\UI\Account\Factory;
+namespace App\Presentation\Account\Factory;
 
-use App\UI\Sign\Factory;
-use App\UI\Sign\User\UserEntity;
-use App\UI\Sign\User\UserRepository;
+use App\Presentation\Sign\Factory;
+use App\Presentation\Sign\User\UserEntity;
+use App\Presentation\Sign\User\UserRepository;
 use Dibi\Exception;
 use Drago\Attr\AttributeDetectionException;
 use Drago\Form\Autocomplete;

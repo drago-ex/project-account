@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\UI\Account;
+namespace App\Presentation\Account;
 
-use App\UI\BaseTemplate;
+use App\Presentation\BaseTemplate;
 
 
 /** Account template. */

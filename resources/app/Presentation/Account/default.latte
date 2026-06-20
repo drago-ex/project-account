@@ -1,4 +1,4 @@
-{templateType App\UI\Account\AccountTemplate}
+{templateType App\Presentation\Account\AccountTemplate}
 {block content}
 
 	<section class="account-hero">
@@ -8,7 +8,7 @@
 	</section>
 
 	<div class="account-card bg-body rounded-3 shadow-sm">
-		{embed '../../Core/Widget/@tabs.latte',
+		{embed '../Accessory/Widget/@tabs.latte',
 		tabs: [
 		[
 		id: 'profile-info',
@@ -30,7 +30,7 @@
 		}
 			{block profile}
 				{snippet profile}
-					{embed '../../Core/Widget/@form.latte', class: 'ajax', name: 'profile', najaHistory: 'off'}
+					{embed '../Accessory/Widget/@form.latte', class: 'ajax', name: 'profile', najaHistory: 'off'}
 						{block form}
 							{include input, name: 'username'}
 							{include input, name: 'email'}
@@ -44,8 +44,8 @@
 
 			{block changePassword}
 				{snippet changePassword}
-					{embed '../../Core/Widget/@form.latte', class: 'ajax', name: 'changePassword', najaHistory: 'off'}
-						{import '../../Core/Widget/@form-password.latte'}
+					{embed '../Accessory/Widget/@form.latte', class: 'ajax', name: 'changePassword', najaHistory: 'off'}
+						{import '../Accessory/Widget/@form-password.latte'}
 						{block form}
 							{include password-toggle, name: 'currentPassword'}
 							{include password-toggle, name: 'password'}

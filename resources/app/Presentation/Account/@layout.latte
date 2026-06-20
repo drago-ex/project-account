@@ -1,4 +1,4 @@
-{templateType App\UI\Account\AccountTemplate}
+{templateType App\Presentation\Account\AccountTemplate}
 {varType Drago\Application\UI\Flashes[] $flashes}
 
 <!doctype html>
@@ -22,15 +22,15 @@
 			</a>
 
 			<div class="ms-auto d-flex align-items-center">
-				{embed '../../Core/Widget/@dropdown.latte', name: 'Languages', icon: 'fa-solid fa-language', menu: 'end'}
-					{import '../../Core/Widget/@lang-switch.latte'}
+				{embed '../Accessory/Widget/@dropdown.latte', name: 'Languages', icon: 'fa-solid fa-language', menu: 'end'}
+					{import '../Accessory/Widget/@lang-switch.latte'}
 					{block menu}
 						{include lang-switch, lang: 'cs', name: 'Czech', class: 'dropdown-item', tag: 'li'}
 						{include lang-switch, lang: 'en', name: 'English', class: 'dropdown-item', tag: 'li'}
 					{/block}
 				{/embed}
 
-				{embed '../../Core/Widget/@dropdown.latte', name: 'Menu', icon: 'fa-solid fa-bars', menu: 'end'}
+				{embed '../Accessory/Widget/@dropdown.latte', name: 'Menu', icon: 'fa-solid fa-bars', menu: 'end'}
 					{block menu}
 						{include item, name: 'Homepage', link: ':Front:Home:'}
 						{include item, name: 'Administration', link: ':Backend:Admin:'}
@@ -59,7 +59,7 @@
 <main role="main" class="account-main flex-shrink-0">
 	<div class="container">
 		{snippet message}
-			{include '../../Core/Widget/@toast.latte', messages: $flashes}
+			{include '../Accessory/Widget/@toast.latte', messages: $flashes}
 		{/snippet}
 
 		{include content}
