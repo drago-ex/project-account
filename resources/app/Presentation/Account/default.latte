@@ -2,31 +2,32 @@
 {block content}
 
 	<section class="account-hero">
-		<p class="text-body-secondary small fw-semibold mb-2">{_'Account'}</p>
 		<h1 n:block="title" class="display-6 fs-2 mb-2">{_'Account'}</h1>
 		<p class="text-body-secondary mb-0">{_'Manage your personal information and account security.'}</p>
 	</section>
 
+	{var $tabs = [
+		[
+			id: 'profile-info',
+			label: 'Profile information',
+			heading: 'Profile information',
+			description: 'Update the name and email address used for your account.',
+			block: 'profile',
+		],
+		[
+			id: 'profile-password',
+			label: 'Change password',
+			heading: 'Change password',
+			description: 'Use a strong password to keep your account protected.',
+			block: 'changePassword',
+		],
+	]}
+
 	<div class="account-card bg-body rounded-3 shadow-sm">
 		{embed '../Accessory/Widget/@tabs.latte',
-		tabs: [
-		[
-		id: 'profile-info',
-		label: 'Profile information',
-		heading: 'Profile information',
-		description: 'Update the name and email address used for your account.',
-		block: 'profile',
-		],
-		[
-		id: 'profile-password',
-		label: 'Change password',
-		heading: 'Change password',
-		description: 'Use a strong password to keep your account protected.',
-		block: 'changePassword',
-		],
-		],
-		headerClass: 'account-tabs px-3 px-md-4 pt-3',
-		contentClass: 'p-3 p-md-4'
+			tabs: $tabs,
+			headerClass: 'account-tabs px-3 px-md-4 pt-3',
+			contentClass: 'p-3 p-md-4',
 		}
 			{block profile}
 				{snippet profile}
