@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Presentation\Account;
 
+use App\Presentation\Accessory\RequireLogged;
 use App\Presentation\Account\Factory\ChangePasswordFactory;
 use App\Presentation\Account\Factory\ProfileFactory;
 use App\Presentation\BasePresenter;
-use App\Presentation\Sign\RequireLogged;
 use Drago\Application\UI\Alert;
 use Nette\Application\UI\Form;
 use Nette\Neon\Exception;
