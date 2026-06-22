@@ -7,7 +7,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<title>{ifset title}{include title|stripHtml|firstUpper} &bull;{/ifset} {$settings->get('website')}</title>
+	<title>{ifset title}{include title|stripHtml|firstUpper} &bull; {/ifset}{include brand|stripHtml}</title>
 
 	{asset 'account.js'}
 </head>
@@ -17,8 +17,9 @@
 <header>
 	<nav class="navbar navbar-expand-md fixed-top">
 		<div class="container-fluid">
-			<a class="navbar-brand" n:href=":Backend:Admin:"><i class="fa-brands fa-medapps text-primary"></i>
-				<span class="text-body-emphasis">{$settings->get('website')}</span>
+			<a class="navbar-brand" n:href=":Backend:Admin:">
+				<i class="fa-brands fa-medapps text-primary"></i>
+				<span n:block="brand" class="text-body-emphasis">Account</span>
 			</a>
 
 			<div class="ms-auto d-flex align-items-center">
@@ -60,7 +61,7 @@
 
 <footer class="account-footer mt-auto py-4">
 	<div class="container">
-		<p class="mb-0 text-center text-body-secondary small">&copy {$settings->get('website')}</p>
+		<p class="mb-0 text-center text-body-secondary small">&copy {include brand|stripHtml}</p>
 	</div>
 </footer>
 
