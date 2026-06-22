@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Presentation\Account\Factory;
 
-use App\Presentation\Sign\User\UserEntity;
-use App\Presentation\Sign\User\UserRepository;
+use App\Model\User\UserEntity;
+use App\Model\User\UserRepository;
 use Dibi\Exception;
 use Drago\Attr\AttributeDetectionException;
 use Nette\Application\BadRequestException;
