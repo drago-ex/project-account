@@ -1,5 +1,6 @@
 {templateType App\Presentation\Account\AccountTemplate}
 {varType Drago\Application\UI\Flashes[] $flashes}
+{import '../Accessory/Widget/@brand.latte'}
 
 <!doctype html>
 <html lang="{$lang}" data-bs-theme="light">
@@ -17,9 +18,11 @@
 <header>
 	<nav class="navbar navbar-expand-md fixed-top">
 		<div class="container-fluid">
-			<a class="navbar-brand" n:href=":Backend:Admin:">
+			<a class="navbar-brand" n:href=":Account:">
 				<i class="fa-brands fa-medapps text-primary"></i>
-				<span n:block="brand" class="text-body-emphasis">Account</span>
+				<span class="text-body-emphasis">
+					{include brand}
+				</span>
 			</a>
 
 			<div class="ms-auto d-flex align-items-center">
