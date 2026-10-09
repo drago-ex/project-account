@@ -17,6 +17,9 @@
 					"resources/assets": "assets"
 				}
 			}
+		},
+		"drago-translator": {
+			"translation": "app/Presentation/Account/Translate"
 		}
 	},
 	"require-dev": {
