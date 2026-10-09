@@ -7,6 +7,7 @@ Account management for Drago Project.
 [![Coding Style](https://github.com/drago-ex/project-account/actions/workflows/coding-style.yml/badge.svg)](https://github.com/drago-ex/project-account/actions/workflows/coding-style.yml)
 
 ## Requirements
+
 - PHP >= 8.3
 - Nette Framework
 - Composer
@@ -16,17 +17,20 @@ Account management for Drago Project.
 - Drago Project core packages
 
 ## Installation
+
 ```bash
 composer require drago-ex/project-account
 ```
 
 ### npm Installation
+
 The account management UI requires the theme switcher for proper functionality:
 ```bash
 npm install theme-switcher-compostrap
 ```
 
 ## Usage
+
 The package adds an `Account` presenter for managing the current user account.
 It is intentionally outside the frontend and backend modules, so the same account
 screen can be linked from both parts of the application.
