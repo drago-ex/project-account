@@ -38,8 +38,8 @@ class ProfileFactory
 		$form = $this->factory->create();
 		$form->addTextInput(UserEntity::ColumnUsername, 'Full name')
 			->setPlaceholder('Full name')
-			->setRequired('Please enter your full name.')
-			->setAutocomplete(Autocomplete::Name);
+			->setAutocomplete(Autocomplete::Name)
+			->setRequired('Please enter your full name.');
 
 		$form->addEmailField();
 		$form->addSubmit('send', 'Save profile');
