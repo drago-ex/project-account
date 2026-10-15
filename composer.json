@@ -2,7 +2,7 @@
 	"name": "drago-ex/project-account",
 	"description": "Account management for Drago Project.",
 	"type": "drago-tools-resource",
-	"license": ["MIT"],
+	"license": "MIT",
 	"require": {
 		"php": ">=8.3 <9",
 		"drago-ex/component": "^2.0",
@@ -12,7 +12,9 @@
 		"phpstan/phpstan-nette": "^2.0",
 		"drago-ex/project-tools": "^1.0"
 	},
-	"bin": ["bin/create-account-permission"],
+	"bin": [
+		"bin/create-account-permission"
+	],
 	"extra": {
 		"drago-tools": {
 			"allow-library-install": true,
