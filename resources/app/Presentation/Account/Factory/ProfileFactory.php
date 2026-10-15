@@ -57,11 +57,10 @@ class ProfileFactory
 	 * @throws AttributeDetectionException
 	 * @throws Exception
 	 */
-	private function saveProfile(Form $form): void
+	private function saveProfile(Form $form, ProfileValues $values): void
 	{
-		$values = $form->getValues('array');
 		$currentUser = $this->userFactory->getCurrentUser();
-		$email = (string) $values[UserEntity::ColumnEmail];
+		$email = $values->email;
 		$existingUser = $this->userRepository->findUserByEmail($email);
 
 		if ($existingUser !== null && $existingUser->id !== $currentUser->id) {
@@ -69,7 +68,7 @@ class ProfileFactory
 			return;
 		}
 
-		$currentUser->username = (string) $values[UserEntity::ColumnUsername];
+		$currentUser->username = $values->username;
 		$currentUser->email = $email;
 		$this->userRepository->save($currentUser);
 	}

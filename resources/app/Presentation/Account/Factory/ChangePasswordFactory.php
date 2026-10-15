@@ -74,11 +74,10 @@ class ChangePasswordFactory
 	 * @throws AttributeDetectionException
 	 * @throws Exception
 	 */
-	private function savePassword(Form $form): void
+	private function savePassword(Form $form, ChangePasswordValues $values): void
 	{
-		$values = $form->getValues('array');
 		$currentUser = $this->userFactory->getCurrentUser();
-		$currentUser->password = $this->passwords->hash((string) $values['password']);
+		$currentUser->password = $this->passwords->hash($values->password);
 		$this->userRepository->save($currentUser);
 		$form->reset();
 	}
