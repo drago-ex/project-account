@@ -23,6 +23,9 @@
 					"resources/app": "app",
 					"resources/assets": "assets"
 				}
+			},
+			"commands": {
+				"create:account-permission": "php vendor/bin/create-account-permission"
 			}
 		},
 		"drago-translator": {
