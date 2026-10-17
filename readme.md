@@ -48,6 +48,8 @@ The account screen provides two forms:
   without it anyone with access to a signed-in session could take over the account.
 - **Current password attempts are limited** to 5 failures per user in 15 minutes (`CurrentPasswordVerifier`,
   using the `RateLimiter` from `drago-ex/project-auth`).
+- **New passwords** follow the same rules as registration (`PasswordPolicy` from `drago-ex/project-auth`):
+  at least 12 characters, no required character classes, spaces allowed, at most 72 bytes.
 - **Changing the password** replaces the user's session token, which signs out all other sessions; the current
   session stays signed in.
 

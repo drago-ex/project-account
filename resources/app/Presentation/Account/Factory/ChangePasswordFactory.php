@@ -6,10 +6,10 @@ namespace App\Presentation\Account\Factory;
 
 use App\Model\User\UserRepository;
 use App\Presentation\Sign\Factory;
+use App\Presentation\Sign\PasswordPolicy;
 use Dibi\Exception;
 use Drago\Attr\AttributeDetectionException;
 use Drago\Form\Autocomplete;
-use Drago\Form\Rules\PasswordRules;
 use Drago\Localization\Translator;
 use Nette\Application\UI\Form;
 use Nette\Forms\Controls\BaseControl;
@@ -44,10 +44,9 @@ class ChangePasswordFactory
 			->setAutocomplete(Autocomplete::CurrentPassword)
 			->setRequired('Please enter your current password.');
 
-		$form->addPasswordField()
-			->setAutocomplete(Autocomplete::NewPassword)
-			->addRule($form::MinLength, 'Password must be at least %d characters long.', 8)
-			->addRule($form::Pattern, PasswordRules::StrongMessage, PasswordRules::StrongPattern);
+		$password = $form->addPasswordField()
+			->setAutocomplete(Autocomplete::NewPassword);
+		PasswordPolicy::apply($password);
 
 		$form->addPasswordConfirmationField()
 			->setAutocomplete(Autocomplete::Off);
