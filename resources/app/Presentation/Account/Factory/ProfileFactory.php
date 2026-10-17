@@ -12,6 +12,7 @@ use Drago\Attr\AttributeDetectionException;
 use Drago\Form\Autocomplete;
 use Drago\Localization\Translator;
 use Nette\Application\UI\Form;
+use Nette\Forms\Controls\BaseControl;
 
 
 class ProfileFactory
@@ -23,6 +24,7 @@ class ProfileFactory
 		private readonly Factory $factory,
 		private readonly UserFactory $userFactory,
 		private readonly UserRepository $userRepository,
+		private readonly CurrentPasswordVerifier $currentPasswordVerifier,
 	) {
 	}
 
@@ -42,15 +44,48 @@ class ProfileFactory
 			->setRequired('Please enter your full name.')
 			->addRule($form::MaxLength, 'The full name is too long (maximum %d characters).', 50);
 
-		$form->addEmailField()
+		$email = $form->addEmailField()
 			->addRule($form::MaxLength, 'The email address is too long (maximum %d characters).', 254);
+
+		// The email is where password recovery goes, so changing it needs the current password.
+		$form->addPasswordInput(ProfileValues::CurrentPassword, 'Current password')
+			->setPlaceholder('Current password')
+			->setAutocomplete(Autocomplete::CurrentPassword)
+			->addConditionOn($email, $form::NotEqual, $currentUser->email)
+				->setRequired('Please enter your current password to change the email address.');
+
 		$form->addSubmit('send', 'Save profile');
 		$form->setDefaults([
 			UserEntity::ColumnUsername => $currentUser->username,
 			UserEntity::ColumnEmail => $currentUser->email,
 		]);
+		$form->onValidate[] = $this->validateEmailChange(...);
 		$form->onSuccess[] = $this->saveProfile(...);
 		return $form;
+	}
+
+
+	/**
+	 * @throws AttributeDetectionException
+	 * @throws Exception
+	 */
+	private function validateEmailChange(Form $form): void
+	{
+		$currentUser = $this->userFactory->getCurrentUser();
+		$email = $form->getComponent(UserEntity::ColumnEmail);
+		assert($email instanceof BaseControl);
+
+		if ($form->hasErrors() || $email->getValue() === $currentUser->email) {
+			return;
+		}
+
+		$input = $form->getComponent(ProfileValues::CurrentPassword);
+		assert($input instanceof BaseControl);
+
+		$error = $this->currentPasswordVerifier->verify($currentUser, (string) $input->getValue());
+		if ($error !== null) {
+			$input->addError($error);
+		}
 	}
 
 

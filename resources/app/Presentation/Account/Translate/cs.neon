@@ -17,6 +17,9 @@
 "Current password": "Aktuální heslo"
 "Please enter your current password.": "Zadejte prosím své aktuální heslo."
 "Current password is incorrect.": "Aktuální heslo není správné."
+"Too many incorrect attempts. Try again later.": "Příliš mnoho chybných pokusů. Zkuste to prosím později."
+"Changing the email address requires your current password.": "Změna e-mailové adresy vyžaduje vaše aktuální heslo."
+"Please enter your current password to change the email address.": "Pro změnu e-mailové adresy zadejte své aktuální heslo."
 "Password must be at least %d characters long.": "Heslo musí mít alespoň %d znaků."
 "Password change was successful.": "Změna hesla proběhla úspěšně."
 "We're sorry, but an account with this email address already exists.":

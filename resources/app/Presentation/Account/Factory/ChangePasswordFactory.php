@@ -12,7 +12,7 @@ use Drago\Form\Autocomplete;
 use Drago\Form\Rules\PasswordRules;
 use Drago\Localization\Translator;
 use Nette\Application\UI\Form;
-use Nette\Forms\Control;
+use Nette\Forms\Controls\BaseControl;
 use Nette\Security\Passwords;
 use Nette\Security\SimpleIdentity;
 use Nette\Security\User;
@@ -30,6 +30,7 @@ class ChangePasswordFactory
 		private readonly UserRepository $userRepository,
 		private readonly Passwords $passwords,
 		private readonly User $user,
+		private readonly CurrentPasswordVerifier $currentPasswordVerifier,
 	) {
 	}
 
@@ -41,8 +42,7 @@ class ChangePasswordFactory
 		$form->addPasswordInput('currentPassword', 'Current password')
 			->setPlaceholder('Current password')
 			->setAutocomplete(Autocomplete::CurrentPassword)
-			->setRequired('Please enter your current password.')
-			->addRule($this->checkCurrentPassword(...), 'Current password is incorrect.');
+			->setRequired('Please enter your current password.');
 
 		$form->addPasswordField()
 			->setAutocomplete(Autocomplete::NewPassword)
@@ -53,23 +53,34 @@ class ChangePasswordFactory
 			->setAutocomplete(Autocomplete::Off);
 
 		$form->addSubmit('send', 'Change password');
+		$form->onValidate[] = $this->validateCurrentPassword(...);
 		$form->onSuccess[] = $this->savePassword(...);
 		return $form;
 	}
 
 
 	/**
-	 * Checks current user password.
+	 * Checks the current password once the other fields are valid, so mistakes in them do not use up attempts.
 	 * @throws AttributeDetectionException
 	 * @throws Exception
 	 */
-	public function checkCurrentPassword(Control $input): bool
+	private function validateCurrentPassword(Form $form): void
 	{
-		return $this->passwords->verify(
+		if ($form->hasErrors()) {
+			return;
+		}
+
+		$input = $form->getComponent('currentPassword');
+		assert($input instanceof BaseControl);
+
+		$error = $this->currentPasswordVerifier->verify(
+			$this->userFactory->getCurrentUser(),
 			(string) $input->getValue(),
-			$this->userFactory->getCurrentUser()
-				->password,
 		);
+
+		if ($error !== null) {
+			$input->addError($error);
+		}
 	}
 
 

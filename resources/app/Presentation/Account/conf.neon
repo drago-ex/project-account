@@ -1,3 +1,7 @@
+services:
+	- App\Presentation\Account\Factory\CurrentPasswordVerifier
+
+
 routing:
 	routes:
 		'[<lang=cs cs|en>/]account/<action>/': Account:default

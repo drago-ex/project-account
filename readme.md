@@ -41,3 +41,14 @@ The account screen provides two forms:
 
 - profile information update
 - password change with current password verification
+
+## Security
+
+- **Changing the email address requires the current password.** Password recovery goes to that address, so
+  without it anyone with access to a signed-in session could take over the account.
+- **Current password attempts are limited** to 5 failures per user in 15 minutes (`CurrentPasswordVerifier`,
+  using the `RateLimiter` from `drago-ex/project-auth`).
+- **Changing the password** replaces the user's session token, which signs out all other sessions; the current
+  session stays signed in.
+
+A new email address is not confirmed by a link sent to it. If your project needs that, add it to `ProfileFactory`.

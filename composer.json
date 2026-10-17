@@ -6,7 +6,7 @@
 	"require": {
 		"php": ">=8.3 <9",
 		"drago-ex/component": "^2.0",
-		"drago-ex/project-auth": "^2.0"
+		"drago-ex/project-auth": "^2.3"
 	},
 	"suggest": {
 		"drago-ex/permission": "Enables generation of the frontend permission provider."

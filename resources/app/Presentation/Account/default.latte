@@ -32,9 +32,12 @@
 			{block profile}
 				{snippet profile}
 					{embed '../Accessory/Widget/@form.latte', class: 'ajax', name: 'profile', najaHistory: 'off'}
+						{import '../Accessory/Widget/@form-password.latte'}
 						{block form}
 							{include input, name: 'username'}
 							{include input, name: 'email'}
+							<p class="col-12 small text-body-secondary mb-0">{_'Changing the email address requires your current password.'}</p>
+							{include password-toggle, name: 'currentPassword'}
 							<div class="col-12">
 								{include submit, name: 'send'}
 							</div>
