@@ -52,9 +52,11 @@ final class AccountPresenter extends BasePresenter
 	 */
 	protected function createComponentProfile(): Form
 	{
-		$form = $this->profileFactory->create();
+		$form = $this->profileFactory->create($this->lang);
 		$form->onSuccess[] = function () {
-			$this->flashMessage('Profile has been saved.', Alert::Success);
+			$this->flashMessage($this->profileFactory->isEmailChangePending()
+				? 'Profile has been saved. We have sent a confirmation link to the new email address; the address changes after you confirm it.'
+				: 'Profile has been saved.', Alert::Success);
 		};
 		$this->redrawControl('profile');
 		$this->redrawControl('message');

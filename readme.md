@@ -52,5 +52,6 @@ The account screen provides two forms:
   at least 12 characters, no required character classes, spaces allowed, at most 72 bytes.
 - **Changing the password** replaces the user's session token, which signs out all other sessions; the current
   session stays signed in.
-
-A new email address is not confirmed by a link sent to it. If your project needs that, add it to `ProfileFactory`.
+- **A new email address is confirmed by a link** sent to it (`VerificationService` from `drago-ex/project-auth`);
+  the account keeps the previous address until then. The previous address gets a notice about the change.
+  With `authRequireEmailVerification: false` the change applies at once, and the notice is still sent.

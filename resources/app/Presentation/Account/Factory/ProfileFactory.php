@@ -7,6 +7,7 @@ namespace App\Presentation\Account\Factory;
 use App\Model\User\UserEntity;
 use App\Model\User\UserRepository;
 use App\Presentation\Sign\Factory;
+use App\Presentation\Sign\Verification\VerificationService;
 use Dibi\Exception;
 use Drago\Attr\AttributeDetectionException;
 use Drago\Form\Autocomplete;
@@ -18,6 +19,7 @@ use Nette\Forms\Controls\BaseControl;
 class ProfileFactory
 {
 	public Translator $translator;
+	private bool $emailChangePending = false;
 
 
 	public function __construct(
@@ -25,6 +27,7 @@ class ProfileFactory
 		private readonly UserFactory $userFactory,
 		private readonly UserRepository $userRepository,
 		private readonly CurrentPasswordVerifier $currentPasswordVerifier,
+		private readonly VerificationService $verification,
 	) {
 	}
 
@@ -34,7 +37,7 @@ class ProfileFactory
 	 * @throws AttributeDetectionException
 	 * @throws Exception
 	 */
-	public function create(): Form
+	public function create(string $lang = 'cs'): Form
 	{
 		$currentUser = $this->userFactory->getCurrentUser();
 		$form = $this->factory->create();
@@ -60,8 +63,15 @@ class ProfileFactory
 			UserEntity::ColumnEmail => $currentUser->email,
 		]);
 		$form->onValidate[] = $this->validateEmailChange(...);
-		$form->onSuccess[] = $this->saveProfile(...);
+		$form->onSuccess[] = fn(Form $form, ProfileValues $values) => $this->saveProfile($form, $values, $lang);
 		return $form;
+	}
+
+
+	/** True after saving, when the new email address waits for confirmation by the link sent to it. */
+	public function isEmailChangePending(): bool
+	{
+		return $this->emailChangePending;
 	}
 
 
@@ -94,7 +104,7 @@ class ProfileFactory
 	 * @throws AttributeDetectionException
 	 * @throws Exception
 	 */
-	private function saveProfile(Form $form, ProfileValues $values): void
+	private function saveProfile(Form $form, ProfileValues $values, string $lang): void
 	{
 		$currentUser = $this->userFactory->getCurrentUser();
 		$email = $values->email;
@@ -106,7 +116,15 @@ class ProfileFactory
 		}
 
 		$currentUser->username = $values->username;
-		$currentUser->email = $email;
 		$this->userRepository->save($currentUser);
+
+		// The new address applies after it is confirmed by a link (or at once without verification);
+		// the previous address is notified about the change.
+		if ($email !== $currentUser->email) {
+			$this->emailChangePending = $this->verification->changeEmail($currentUser, $email, $lang);
+		}
+
+		// Until it is confirmed, the form shows the address the account really uses.
+		$form->setValues([UserEntity::ColumnEmail => $currentUser->email]);
 	}
 }

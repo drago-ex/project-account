@@ -6,12 +6,13 @@
 	"require": {
 		"php": ">=8.3 <9",
 		"drago-ex/component": "^2.0",
-		"drago-ex/project-auth": "^2.5"
+		"drago-ex/project-auth": "^2.6"
 	},
 	"suggest": {
 		"drago-ex/permission": "Enables generation of the frontend permission provider."
 	},
 	"require-dev": {
+		"nette/tester": "^2.5",
 		"phpstan/phpstan-nette": "^2.0",
 		"drago-ex/project-tools": "^1.0"
 	},
@@ -37,6 +38,7 @@
 	},
 	"scripts": {
 		"phpstan": "phpstan analyse",
+		"tester": "tester tests -s -C",
 		"post-install-cmd": [
 			"drago-install --dev",
 			"drago-clean"
