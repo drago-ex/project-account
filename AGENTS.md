@@ -16,6 +16,10 @@ Use this file as package-specific guidance when working in this repository. Keep
 - `.github/`: CI workflows; keep their PHP versions and commands consistent with Composer and the package scripts.
 - `composer.json`: package metadata, dependency constraints, autoloading, and available Composer scripts.
 
+## Key Parts
+- The account screen uses the user model of `project-auth`; changing the password generates a new user token, which ends other sessions, and signs the current session in again with it.
+- Form limits must match the `users` columns (name 50, email 254 characters).
+
 ## Dependencies
 
 Composer constraints describe the package contract. Before changing integration behavior, inspect the source and the actual call sites in this package; do not infer runtime usage solely from dependency declarations.

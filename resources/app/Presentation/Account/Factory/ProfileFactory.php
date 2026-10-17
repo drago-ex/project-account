@@ -39,9 +39,11 @@ class ProfileFactory
 		$form->addTextInput(UserEntity::ColumnUsername, 'Full name')
 			->setPlaceholder('Full name')
 			->setAutocomplete(Autocomplete::Name)
-			->setRequired('Please enter your full name.');
+			->setRequired('Please enter your full name.')
+			->addRule($form::MaxLength, 'The full name is too long (maximum %d characters).', 50);
 
-		$form->addEmailField();
+		$form->addEmailField()
+			->addRule($form::MaxLength, 'The email address is too long (maximum %d characters).', 254);
 		$form->addSubmit('send', 'Save profile');
 		$form->setDefaults([
 			UserEntity::ColumnUsername => $currentUser->username,

@@ -14,6 +14,9 @@ use Drago\Localization\Translator;
 use Nette\Application\UI\Form;
 use Nette\Forms\Control;
 use Nette\Security\Passwords;
+use Nette\Security\SimpleIdentity;
+use Nette\Security\User;
+use Nette\Utils\Random;
 
 
 class ChangePasswordFactory
@@ -26,6 +29,7 @@ class ChangePasswordFactory
 		private readonly UserFactory $userFactory,
 		private readonly UserRepository $userRepository,
 		private readonly Passwords $passwords,
+		private readonly User $user,
 	) {
 	}
 
@@ -70,7 +74,7 @@ class ChangePasswordFactory
 
 
 	/**
-	 * Saves new password.
+	 * Saves new password and signs out all other sessions of the user.
 	 * @throws AttributeDetectionException
 	 * @throws Exception
 	 */
@@ -78,7 +82,18 @@ class ChangePasswordFactory
 	{
 		$currentUser = $this->userFactory->getCurrentUser();
 		$currentUser->password = $this->passwords->hash($values->password);
+
+		// Sessions are restored by the token, so a new token invalidates all existing ones (as password recovery does).
+		$currentUser->token = Random::generate(32);
 		$this->userRepository->save($currentUser);
+
+		// Keep the current session signed in with the new token.
+		$identity = $this->user->getIdentity();
+		if ($identity instanceof SimpleIdentity) {
+			$identity->token = $currentUser->token;
+			$this->user->login($identity);
+		}
+
 		$form->reset();
 	}
 }
