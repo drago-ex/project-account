@@ -44,26 +44,16 @@ The account screen provides two forms:
 
 ## Permission provider
 
-With [drago-ex/permission](https://github.com/drago-ex/permission) installed, generate the basic access rules
-of this package (signed-in users may manage their own account) together with those of the other installed packages:
+With [drago-ex/permission](https://github.com/drago-ex/permission), the access rules from [`permission.php`](permission.php)
+are generated into the project by:
 
 ```bash
 php vendor/bin/create-permission --packages
 ```
 
-The rules are declared in [`permission.php`](permission.php) and generated into `app/Presentation/Account/PermissionProvider.php`.
-An existing class is kept, because it belongs to the project; the command records what it did in `.drago-project/permission.json`.
-
 ## Security
-
-- **Changing the email address requires the current password.** Password recovery goes to that address, so
-  without it anyone with access to a signed-in session could take over the account.
-- **Current password attempts are limited** to 5 failures per user in 15 minutes (`CurrentPasswordVerifier`,
-  using the `RateLimiter` from `drago-ex/project-auth`).
-- **New passwords** follow the same rules as registration (`PasswordPolicy` from `drago-ex/project-auth`):
-  at least 12 characters, no required character classes, spaces allowed, at most 72 bytes.
-- **Changing the password** replaces the user's session token, which signs out all other sessions; the current
-  session stays signed in.
-- **A new email address is confirmed by a link** sent to it (`VerificationService` from `drago-ex/project-auth`);
-  the account keeps the previous address until then. The previous address gets a notice about the change.
-  With `authRequireEmailVerification: false` the change applies at once, and the notice is still sent.
+- Changing the email address requires the current password.
+- Current password attempts are limited to 5 failures per user in 15 minutes.
+- New passwords follow the rules of `drago-ex/project-auth` (at least 12 characters).
+- Changing the password signs out all other sessions.
+- A new email address applies after it is confirmed by a link; the previous address gets a notice.
