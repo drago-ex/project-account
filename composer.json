@@ -16,9 +16,6 @@
 		"phpstan/phpstan-nette": "^2.0",
 		"drago-ex/project-tools": "^1.1"
 	},
-	"bin": [
-		"bin/create-account-permission"
-	],
 	"extra": {
 		"drago-tools": {
 			"allow-library-install": true,
@@ -27,11 +24,9 @@
 					"resources/app": "app",
 					"resources/assets": "assets"
 				}
-			},
-			"commands": {
-				"create:account-permission": "php vendor/bin/create-account-permission"
 			}
 		},
+		"drago-permission": "permission.php",
 		"drago-translator": {
 			"translation": "app/Presentation/Account/Translate"
 		}

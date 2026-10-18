@@ -11,7 +11,7 @@ Use this file as package-specific guidance when working in this repository. Keep
 - **License**: MIT
 
 ## Repository Layout
-- `bin/`: command-line entry points.
+- `permission.php`: basic access rules for `drago-ex/permission`, declared in `extra.drago-permission` and generated into the project by `create-permission --packages`.
 - `resources/`: application resources contributed to the consuming Drago project.
 - `.github/`: CI workflows; keep their PHP versions and commands consistent with Composer and the package scripts.
 - `composer.json`: package metadata, dependency constraints, autoloading, and available Composer scripts.
