@@ -11,26 +11,30 @@ Use this file as package-specific guidance when working in this repository. Keep
 - **License**: MIT
 
 ## Repository Layout
-- `bin/`: command-line entry points.
+- `permission.php`: basic access rules for `drago-ex/permission`, declared in `extra.drago-permission` and generated into the project by `create-permission --packages`.
 - `resources/`: application resources contributed to the consuming Drago project.
 - `.github/`: CI workflows; keep their PHP versions and commands consistent with Composer and the package scripts.
 - `composer.json`: package metadata, dependency constraints, autoloading, and available Composer scripts.
 
+## Key Parts
+- The account screen uses the user model of `project-auth`; changing the password generates a new user token, which ends other sessions, and signs the current session in again with it.
+- Form limits must match the `users` columns (name 50, email 254 characters).
+
 ## Dependencies
 
 Composer constraints describe the package contract. Before changing integration behavior, inspect the source and the actual call sites in this package; do not infer runtime usage solely from dependency declarations.
-Development dependencies include phpstan/phpstan-nette (^2.0), drago-ex/project-tools (^1.0).
+Development dependencies include phpstan/phpstan-nette (^2.0), drago-ex/project-tools (^2.0).
 
 ## Essential Commands
 
 ```bash
 composer phpstan                # phpstan analyse
+composer tester                 # tester tests -s -C
 ```
 
 ## Tests
 
-This repository does not currently define a test script in `composer.json` or contain a `tests/` directory.
-Do not claim behavior is covered by tests unless you find and run a relevant suite. When adding a test suite, follow the package’s existing Nette Tester setup if one is present and add an explicit Composer script.
+Nette Tester tests are in `tests/`; run them with `composer tester`. `tests/bootstrap.php` autoloads `App\` classes from `resources/app`, then from `.dev-resource/app`, where `drago-install --dev` copies the resources of the dependencies (e.g. `drago-ex/project-auth`).
 
 ## Installation Hooks
 

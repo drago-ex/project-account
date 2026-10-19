@@ -6,14 +6,17 @@ namespace App\Presentation\Account\Factory;
 
 use App\Model\User\UserRepository;
 use App\Presentation\Sign\Factory;
+use App\Presentation\Sign\PasswordPolicy;
 use Dibi\Exception;
 use Drago\Attr\AttributeDetectionException;
 use Drago\Form\Autocomplete;
-use Drago\Form\Rules\PasswordRules;
 use Drago\Localization\Translator;
 use Nette\Application\UI\Form;
-use Nette\Forms\Control;
+use Nette\Forms\Controls\BaseControl;
 use Nette\Security\Passwords;
+use Nette\Security\SimpleIdentity;
+use Nette\Security\User;
+use Nette\Utils\Random;
 
 
 class ChangePasswordFactory
@@ -26,6 +29,8 @@ class ChangePasswordFactory
 		private readonly UserFactory $userFactory,
 		private readonly UserRepository $userRepository,
 		private readonly Passwords $passwords,
+		private readonly User $user,
+		private readonly CurrentPasswordVerifier $currentPasswordVerifier,
 	) {
 	}
 
@@ -37,40 +42,49 @@ class ChangePasswordFactory
 		$form->addPasswordInput('currentPassword', 'Current password')
 			->setPlaceholder('Current password')
 			->setAutocomplete(Autocomplete::CurrentPassword)
-			->setRequired('Please enter your current password.')
-			->addRule($this->checkCurrentPassword(...), 'Current password is incorrect.');
+			->setRequired('Please enter your current password.');
 
-		$form->addPasswordField()
-			->setAutocomplete(Autocomplete::NewPassword)
-			->addRule($form::MinLength, 'Password must be at least %d characters long.', 8)
-			->addRule($form::Pattern, PasswordRules::StrongMessage, PasswordRules::StrongPattern);
+		$password = $form->addPasswordField()
+			->setAutocomplete(Autocomplete::NewPassword);
+		PasswordPolicy::apply($password);
 
 		$form->addPasswordConfirmationField()
 			->setAutocomplete(Autocomplete::Off);
 
 		$form->addSubmit('send', 'Change password');
+		$form->onValidate[] = $this->validateCurrentPassword(...);
 		$form->onSuccess[] = $this->savePassword(...);
 		return $form;
 	}
 
 
 	/**
-	 * Checks current user password.
+	 * Checks the current password once the other fields are valid, so mistakes in them do not use up attempts.
 	 * @throws AttributeDetectionException
 	 * @throws Exception
 	 */
-	public function checkCurrentPassword(Control $input): bool
+	private function validateCurrentPassword(Form $form): void
 	{
-		return $this->passwords->verify(
+		if ($form->hasErrors()) {
+			return;
+		}
+
+		$input = $form->getComponent('currentPassword');
+		assert($input instanceof BaseControl);
+
+		$error = $this->currentPasswordVerifier->verify(
+			$this->userFactory->getCurrentUser(),
 			(string) $input->getValue(),
-			$this->userFactory->getCurrentUser()
-				->password,
 		);
+
+		if ($error !== null) {
+			$input->addError($error);
+		}
 	}
 
 
 	/**
-	 * Saves new password.
+	 * Saves new password and signs out all other sessions of the user.
 	 * @throws AttributeDetectionException
 	 * @throws Exception
 	 */
@@ -78,7 +92,18 @@ class ChangePasswordFactory
 	{
 		$currentUser = $this->userFactory->getCurrentUser();
 		$currentUser->password = $this->passwords->hash($values->password);
+
+		// Sessions are restored by the token, so a new token invalidates all existing ones (as password recovery does).
+		$currentUser->token = Random::generate(32);
 		$this->userRepository->save($currentUser);
+
+		// Keep the current session signed in with the new token.
+		$identity = $this->user->getIdentity();
+		if ($identity instanceof SimpleIdentity) {
+			$identity->token = $currentUser->token;
+			$this->user->login($identity);
+		}
+
 		$form->reset();
 	}
 }

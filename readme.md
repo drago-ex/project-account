@@ -41,3 +41,19 @@ The account screen provides two forms:
 
 - profile information update
 - password change with current password verification
+
+## Permission provider
+
+With [drago-ex/permission](https://github.com/drago-ex/permission), the access rules from [`permission.php`](permission.php)
+are generated into the project by:
+
+```bash
+php vendor/bin/create-permission --packages
+```
+
+## Security
+- Changing the email address requires the current password.
+- Current password attempts are limited to 5 failures per user in 15 minutes.
+- New passwords follow the rules of `drago-ex/project-auth` (at least 12 characters).
+- Changing the password signs out all other sessions.
+- A new email address applies after it is confirmed by a link; the previous address gets a notice.
