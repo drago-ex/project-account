@@ -11,14 +11,12 @@ use App\Presentation\Sign\Verification\VerificationService;
 use Dibi\Exception;
 use Drago\Attr\AttributeDetectionException;
 use Drago\Form\Autocomplete;
-use Drago\Localization\Translator;
 use Nette\Application\UI\Form;
 use Nette\Forms\Controls\BaseControl;
 
 
 class ProfileFactory
 {
-	public Translator $translator;
 	private bool $emailChangePending = false;
 
 

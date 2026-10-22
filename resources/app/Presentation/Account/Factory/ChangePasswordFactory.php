@@ -10,7 +10,6 @@ use App\Presentation\Sign\PasswordPolicy;
 use Dibi\Exception;
 use Drago\Attr\AttributeDetectionException;
 use Drago\Form\Autocomplete;
-use Drago\Localization\Translator;
 use Nette\Application\UI\Form;
 use Nette\Forms\Controls\BaseControl;
 use Nette\Security\Passwords;
@@ -21,9 +20,6 @@ use Nette\Utils\Random;
 
 class ChangePasswordFactory
 {
-	public Translator $translator;
-
-
 	public function __construct(
 		private readonly Factory $factory,
 		private readonly UserFactory $userFactory,
