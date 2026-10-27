@@ -28,6 +28,11 @@ Rozhraní správy účtu potřebuje ke správné funkci přepínač motivů:
 npm install theme-switcher-compostrap
 ```
 
+## Soubory kopírované do projektu
+
+Soubory do projektu kopíruje [drago-ex/project-tools](https://github.com/drago-ex/project-tools)
+podle nastavení v `extra.drago-tools` v `composer.json` tohoto balíčku.
+
 ## Použití
 
 Balíček přidává presenter `Account` pro správu účtu přihlášeného uživatele.

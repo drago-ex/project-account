@@ -28,6 +28,11 @@ The account management UI requires the theme switcher for proper functionality:
 npm install theme-switcher-compostrap
 ```
 
+## Files copied into the project
+
+The files are copied into the project by [drago-ex/project-tools](https://github.com/drago-ex/project-tools),
+as set in `extra.drago-tools` of this package's `composer.json`.
+
 ## Usage
 
 The package adds an `Account` presenter for managing the current user account.
