@@ -54,11 +54,17 @@ The account screen provides two forms:
 - Changing the password signs out all other sessions.
 - A new email address applies after it is confirmed by a link; the previous address gets a notice.
 
-## Permission provider
+---
 
-With [drago-ex/permission](https://github.com/drago-ex/permission), the access rules from [`permission.php`](permission.php)
+## Optional add-ons
+
+The package works without them. Set them up by hand as described below when the project needs them.
+
+### Permission provider
+
+With [drago-ex/permission](https://github.com/drago-ex/permission), the access rules from [`bin/create-account-permission`](bin/create-account-permission)
 are generated into the project by:
 
 ```bash
-php vendor/bin/create-permission --packages
+php vendor/bin/drago-commands
 ```

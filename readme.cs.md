@@ -54,11 +54,17 @@ Stránka účtu nabízí dva formuláře:
 - Změna hesla odhlásí všechny ostatní relace.
 - Nová e-mailová adresa platí až po potvrzení odkazem; původní adresa dostane upozornění.
 
-## Provider oprávnění
+---
 
-S [drago-ex/permission](https://github.com/drago-ex/permission) se pravidla přístupu z [`permission.php`](permission.php)
+## Volitelné doplňky
+
+Balíček funguje i bez nich. Pokud je projekt potřebuje, nastavte je ručně podle popisu níže.
+
+### Provider oprávnění
+
+S [drago-ex/permission](https://github.com/drago-ex/permission) se pravidla přístupu z [`bin/create-account-permission`](bin/create-account-permission)
 vygenerují do projektu příkazem:
 
 ```bash
-php vendor/bin/create-permission --packages
+php vendor/bin/drago-commands
 ```

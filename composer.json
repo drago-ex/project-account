@@ -25,9 +25,11 @@
 					"resources/app": "app",
 					"resources/assets": "assets"
 				}
-			}
+			},
+			"commands": [
+				"bin/create-account-permission"
+			]
 		},
-		"drago-permission": "permission.php",
 		"drago-translator": {
 			"translation": "app/Presentation/Account/Translate"
 		}
