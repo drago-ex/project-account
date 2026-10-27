@@ -42,6 +42,13 @@ Stránka účtu nabízí dva formuláře:
 - úpravu údajů profilu
 - změnu hesla s ověřením současného hesla
 
+## Bezpečnost
+- Změna e-mailové adresy vyžaduje současné heslo.
+- Pokusy o zadání současného hesla jsou omezené na 5 neúspěchů na uživatele za 15 minut.
+- Nová hesla se řídí pravidly `drago-ex/project-auth` (nejméně 12 znaků).
+- Změna hesla odhlásí všechny ostatní relace.
+- Nová e-mailová adresa platí až po potvrzení odkazem; původní adresa dostane upozornění.
+
 ## Provider oprávnění
 
 S [drago-ex/permission](https://github.com/drago-ex/permission) se pravidla přístupu z [`permission.php`](permission.php)
@@ -50,10 +57,3 @@ vygenerují do projektu příkazem:
 ```bash
 php vendor/bin/create-permission --packages
 ```
-
-## Bezpečnost
-- Změna e-mailové adresy vyžaduje současné heslo.
-- Pokusy o zadání současného hesla jsou omezené na 5 neúspěchů na uživatele za 15 minut.
-- Nová hesla se řídí pravidly `drago-ex/project-auth` (nejméně 12 znaků).
-- Změna hesla odhlásí všechny ostatní relace.
-- Nová e-mailová adresa platí až po potvrzení odkazem; původní adresa dostane upozornění.
