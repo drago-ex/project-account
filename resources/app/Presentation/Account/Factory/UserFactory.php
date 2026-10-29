@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Presentation\Account\Factory;
 
@@ -29,17 +27,11 @@ readonly class UserFactory
 	 */
 	public function getCurrentUser(): UserEntity
 	{
-		$identity = $this->user->getIdentity();
-		if ($identity === null) {
-			throw new ForbiddenRequestException('You must be logged in.');
-		}
+		$identity = $this->user->getIdentity() ?? throw new ForbiddenRequestException('You must be logged in.');
 
 		$user = $this->userRepository->get((int) $identity->getId())
-			->record();
+			->record() ?? throw new BadRequestException('User not found.', 404);
 
-		if ($user === null) {
-			throw new BadRequestException('User not found.', 404);
-		}
 		return $user;
 	}
 }

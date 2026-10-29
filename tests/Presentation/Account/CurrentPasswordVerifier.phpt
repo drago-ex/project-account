@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: App\Presentation\Account\Factory\CurrentPasswordVerifier
  */
-
-declare(strict_types=1);
 
 use App\Model\User\UserEntity;
 use App\Presentation\Account\Factory\CurrentPasswordVerifier;

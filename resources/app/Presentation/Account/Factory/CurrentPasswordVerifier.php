@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Presentation\Account\Factory;
 
@@ -17,8 +15,7 @@ readonly class CurrentPasswordVerifier
 {
 	private const string LimitBucket = 'account-password';
 
-	private const int
-		MaxFailures = 5,
+	private const int MaxFailures = 5,
 		FailureWindow = 900;
 
 
