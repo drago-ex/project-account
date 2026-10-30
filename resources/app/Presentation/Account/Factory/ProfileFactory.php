@@ -42,10 +42,10 @@ class ProfileFactory
 			->setPlaceholder('Full name')
 			->setAutocomplete(Autocomplete::Name)
 			->setRequired('Please enter your full name.')
-			->addRule($form::MaxLength, 'The full name is too long (maximum %d characters).', 50);
+			->addRule($form::MaxLength, 'The full name is too long (maximum %d characters).', UserEntity::ColumnUsernameSize);
 
 		$email = $form->addEmailField()
-			->addRule($form::MaxLength, 'The email address is too long (maximum %d characters).', 254);
+			->addRule($form::MaxLength, 'The email address is too long (maximum %d characters).', UserEntity::ColumnEmailSize);
 
 		// The email is where password recovery goes, so changing it needs the current password.
 		$form->addPasswordInput(ProfileValues::CurrentPassword, 'Current password')
