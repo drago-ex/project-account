@@ -26,9 +26,7 @@ readonly class CurrentPasswordVerifier
 	}
 
 
-	/**
-	 * Returns an error message, or null when the password is correct.
-	 */
+	/** Returns an error message, or null when the password is correct. */
 	public function verify(UserEntity $user, #[\SensitiveParameter] string $password): ?string
 	{
 		$subject = (string) $user->id;
