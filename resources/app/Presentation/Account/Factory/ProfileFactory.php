@@ -10,6 +10,7 @@ use Dibi\Exception;
 use Drago\Attr\AttributeDetectionException;
 use Drago\Form\Autocomplete;
 use Nette\Application\UI\Form;
+use Nette\Application\UI\InvalidLinkException;
 use Nette\Forms\Controls\BaseControl;
 
 
@@ -79,7 +80,7 @@ class ProfileFactory
 	{
 		$currentUser = $this->userFactory->getCurrentUser();
 		$email = $form->getComponent(UserEntity::ColumnEmail);
-		assert($email instanceof BaseControl);
+
 
 		if ($form->hasErrors() || $email->getValue() === $currentUser->email) {
 			return;
@@ -99,6 +100,7 @@ class ProfileFactory
 	 * Saves profile data.
 	 * @throws AttributeDetectionException
 	 * @throws Exception
+	 * @throws InvalidLinkException
 	 */
 	private function saveProfile(Form $form, ProfileValues $values, string $lang): void
 	{
@@ -121,6 +123,8 @@ class ProfileFactory
 		}
 
 		// Until it is confirmed, the form shows the address the account really uses.
-		$form->setValues([UserEntity::ColumnEmail => $currentUser->email]);
+		$input = $form->getComponent(UserEntity::ColumnEmail);
+		assert($input instanceof BaseControl);
+		$input->setValue($currentUser->email);
 	}
 }

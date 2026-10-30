@@ -10,21 +10,22 @@ use Drago\Attr\AttributeDetectionException;
 use Drago\Form\Autocomplete;
 use Nette\Application\UI\Form;
 use Nette\Forms\Controls\BaseControl;
+use Nette\Security\AuthenticationException;
 use Nette\Security\Passwords;
 use Nette\Security\SimpleIdentity;
 use Nette\Security\User;
 use Nette\Utils\Random;
 
 
-class ChangePasswordFactory
+readonly class ChangePasswordFactory
 {
 	public function __construct(
-		private readonly Factory $factory,
-		private readonly UserFactory $userFactory,
-		private readonly UserRepository $userRepository,
-		private readonly Passwords $passwords,
-		private readonly User $user,
-		private readonly CurrentPasswordVerifier $currentPasswordVerifier,
+		private Factory $factory,
+		private UserFactory $userFactory,
+		private UserRepository $userRepository,
+		private Passwords $passwords,
+		private User $user,
+		private CurrentPasswordVerifier $currentPasswordVerifier,
 	) {
 	}
 
@@ -80,6 +81,7 @@ class ChangePasswordFactory
 	/**
 	 * Saves new password and signs out all other sessions of the user.
 	 * @throws AttributeDetectionException
+	 * @throws AuthenticationException
 	 * @throws Exception
 	 */
 	private function savePassword(Form $form, ChangePasswordValues $values): void
@@ -94,8 +96,8 @@ class ChangePasswordFactory
 		// Keep the current session signed in with the new token.
 		$identity = $this->user->getIdentity();
 		if ($identity instanceof SimpleIdentity) {
-			$identity->token = $currentUser->token;
-			$this->user->login($identity);
+			$data = ['token' => $currentUser->token] + $identity->getData();
+			$this->user->login(new SimpleIdentity($identity->getId(), $identity->getRoles(), $data));
 		}
 
 		$form->reset();

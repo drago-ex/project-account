@@ -29,9 +29,7 @@ readonly class UserFactory
 	{
 		$identity = $this->user->getIdentity() ?? throw new ForbiddenRequestException('You must be logged in.');
 
-		$user = $this->userRepository->get((int) $identity->getId())
+		return $this->userRepository->get((int) $identity->getId())
 			->record() ?? throw new BadRequestException('User not found.', 404);
-
-		return $user;
 	}
 }
