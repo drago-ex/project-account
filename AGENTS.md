@@ -7,7 +7,7 @@ Use this file as package-specific guidance when working in this repository. Keep
 - **Type**: drago-tools-resource
 - **Purpose**: Account management for Drago Project.
 - **PHP**: >=8.3 <9
-- **Runtime dependencies**: drago-ex/translator (^4.0.1), drago-ex/component (^3.0), drago-ex/project-auth (^1.1)
+- **Runtime dependencies**: drago-ex/translator (^4.0.1), drago-ex/component (^3.0), drago-ex/project-auth (^2.0)
 - **License**: MIT
 
 ## Repository Layout
