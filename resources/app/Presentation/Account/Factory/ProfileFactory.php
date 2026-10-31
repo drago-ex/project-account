@@ -80,7 +80,7 @@ class ProfileFactory
 	{
 		$currentUser = $this->userFactory->getCurrentUser();
 		$email = $form->getComponent(UserEntity::ColumnEmail);
-
+		assert($email instanceof BaseControl);
 
 		if ($form->hasErrors() || $email->getValue() === $currentUser->email) {
 			return;

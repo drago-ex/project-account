@@ -7,7 +7,7 @@
 		"php": ">=8.3 <9",
 		"drago-ex/translator": "^4.0.1",
 		"drago-ex/component": "^3.0",
-		"drago-ex/project-auth": "^1.0"
+		"drago-ex/project-auth": "^1.1"
 	},
 	"suggest": {
 		"drago-ex/permission": "Enables generation of the frontend permission provider."
