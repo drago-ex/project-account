@@ -5,7 +5,6 @@ namespace App\Presentation\Account\Factory;
 use App\Model\User\UserEntity;
 use App\Model\User\UserRepository;
 use Dibi\Exception;
-use Drago\Attr\AttributeDetectionException;
 use Nette\Application\BadRequestException;
 use Nette\Application\ForbiddenRequestException;
 use Nette\Security\User;
@@ -22,14 +21,13 @@ readonly class UserFactory
 
 	/**
 	 * Gets current user entity.
-	 * @throws AttributeDetectionException
 	 * @throws Exception
 	 */
 	public function getCurrentUser(): UserEntity
 	{
 		$identity = $this->user->getIdentity() ?? throw new ForbiddenRequestException('You must be logged in.');
 
-		return $this->userRepository->get((int) $identity->getId())
+		return $this->userRepository->table->get((int) $identity->getId())
 			->record() ?? throw new BadRequestException('User not found.', 404);
 	}
 }

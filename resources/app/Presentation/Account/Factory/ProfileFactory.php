@@ -7,7 +7,6 @@ use App\Model\User\UserRepository;
 use App\Presentation\Sign\Factory;
 use App\Presentation\Sign\Verification\VerificationService;
 use Dibi\Exception;
-use Drago\Attr\AttributeDetectionException;
 use Drago\Form\Autocomplete;
 use Nette\Application\UI\Form;
 use Nette\Application\UI\InvalidLinkException;
@@ -31,7 +30,6 @@ class ProfileFactory
 
 	/**
 	 * Creates profile form.
-	 * @throws AttributeDetectionException
 	 * @throws Exception
 	 */
 	public function create(string $lang = 'cs'): Form
@@ -72,10 +70,7 @@ class ProfileFactory
 	}
 
 
-	/**
-	 * @throws AttributeDetectionException
-	 * @throws Exception
-	 */
+	/** @throws Exception */
 	private function validateEmailChange(Form $form): void
 	{
 		$currentUser = $this->userFactory->getCurrentUser();
@@ -98,7 +93,6 @@ class ProfileFactory
 
 	/**
 	 * Saves profile data.
-	 * @throws AttributeDetectionException
 	 * @throws Exception
 	 * @throws InvalidLinkException
 	 */
@@ -114,7 +108,7 @@ class ProfileFactory
 		}
 
 		$currentUser->username = $values->username;
-		$this->userRepository->save($currentUser);
+		$this->userRepository->table->save($currentUser);
 
 		// The new address applies after it is confirmed by a link (or at once without verification);
 		// the previous address is notified about the change.

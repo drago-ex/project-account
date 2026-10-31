@@ -6,7 +6,6 @@ use App\Model\User\UserRepository;
 use App\Presentation\Sign\Factory;
 use App\Presentation\Sign\PasswordPolicy;
 use Dibi\Exception;
-use Drago\Attr\AttributeDetectionException;
 use Drago\Form\Autocomplete;
 use Nette\Application\UI\Form;
 use Nette\Forms\Controls\BaseControl;
@@ -55,7 +54,6 @@ readonly class ChangePasswordFactory
 
 	/**
 	 * Checks the current password once the other fields are valid, so mistakes in them do not use up attempts.
-	 * @throws AttributeDetectionException
 	 * @throws Exception
 	 */
 	private function validateCurrentPassword(Form $form): void
@@ -80,7 +78,6 @@ readonly class ChangePasswordFactory
 
 	/**
 	 * Saves new password and signs out all other sessions of the user.
-	 * @throws AttributeDetectionException
 	 * @throws AuthenticationException
 	 * @throws Exception
 	 */
@@ -91,7 +88,7 @@ readonly class ChangePasswordFactory
 
 		// Sessions are restored by the token, so a new token invalidates all existing ones (as password recovery does).
 		$currentUser->token = Random::generate(32);
-		$this->userRepository->save($currentUser);
+		$this->userRepository->table->save($currentUser);
 
 		// Keep the current session signed in with the new token.
 		$identity = $this->user->getIdentity();
