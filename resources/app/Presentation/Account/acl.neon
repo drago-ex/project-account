@@ -1,0 +1,8 @@
+# Signed-in users may manage their own account.
+security:
+	resources:
+		Account:
+
+	rules:
+		allow:
+			- [user, Account]

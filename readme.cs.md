@@ -49,17 +49,7 @@ Stránka účtu nabízí dva formuláře:
 - Změna hesla odhlásí všechny ostatní relace.
 - Nová e-mailová adresa platí až po potvrzení odkazem; původní adresa dostane upozornění.
 
----
+## Pravidla přístupu
 
-## Volitelné doplňky
-
-Balíček funguje i bez nich. Pokud je projekt potřebuje, nastavte je ručně podle popisu níže.
-
-### Provider oprávnění
-
-S [drago-ex/permission](https://github.com/drago-ex/permission) se pravidla přístupu z [`bin/create-account-permission`](bin/create-account-permission)
-vygenerují do projektu příkazem:
-
-```bash
-php vendor/bin/drago-commands
-```
+Pravidla přístupu jsou v `app/Presentation/Account/acl.neon`: zdroj `Account` pro přihlášené uživatele.
+[drago-ex/permission](https://github.com/drago-ex/permission) je sloučí se svými výchozími rolemi, ve kterých administrátor smí všechno.

@@ -11,7 +11,7 @@ Use this file as package-specific guidance when working in this repository. Keep
 - **License**: MIT
 
 ## Repository Layout
-- `bin/create-account-permission`: generates the basic access rules (permission providers) with `create-permission` of `drago-ex/permission`; listed in `extra.drago-tools.commands` and run by `drago-commands` of drago-ex/project-tools. Existing providers are kept; without drago-ex/permission it does nothing.
+- `resources/app/Presentation/Account/acl.neon`: the ACL of the package (resources = presenter names, rules only for roles other than the administrator), merged by Nette with `role.acl.neon` of drago-ex/permission (required); a new presenter gets its resource in the `acl.neon` next to it. No bin script or providers.
 - `resources/`: application resources contributed to the consuming Drago project.
 - `.github/`: CI workflows; keep their PHP versions and commands consistent with Composer and the package scripts.
 - `composer.json`: package metadata, dependency constraints, autoloading, and available Composer scripts.
@@ -47,3 +47,4 @@ Composer install and update hooks invoke Drago project setup/cleanup commands. I
 - Keep package-specific configuration, resources, and migrations in their established directories. Do not edit generated or consuming-project files without confirming they are part of this repository’s intended output.
 - Add or update focused tests for behavioral changes when this package has a runnable test setup. Do not invent test commands; use only the scripts and configuration present here.
 - Update README examples and Composer metadata when a public API or supported requirement changes.
+- `package.json` (user, 2026-11-04): `name` + `dependencies` of the npm packages the copied assets import; npm-loader of drago-ex/project installs the package from vendor with them (no `file:vendor/...` entries here: they would point inside this package; drago-ex libraries come from npm-loader, bootstrap and naja from the project).

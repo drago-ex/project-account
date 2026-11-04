@@ -49,17 +49,7 @@ The account screen provides two forms:
 - Changing the password signs out all other sessions.
 - A new email address applies after it is confirmed by a link; the previous address gets a notice.
 
----
+## Access rules
 
-## Optional add-ons
-
-The package works without them. Set them up by hand as described below when the project needs them.
-
-### Permission provider
-
-With [drago-ex/permission](https://github.com/drago-ex/permission), the access rules from [`bin/create-account-permission`](bin/create-account-permission)
-are generated into the project by:
-
-```bash
-php vendor/bin/drago-commands
-```
+The access rules are in `app/Presentation/Account/acl.neon`: the resource `Account` for signed-in users.
+[drago-ex/permission](https://github.com/drago-ex/permission) merges them with its base roles, in which the administrator is allowed everything.
