@@ -29,3 +29,8 @@
 "User not found.": "Uživatel nenalezen."
 "Profile has been saved. We have sent a confirmation link to the new email address; the address changes after you confirm it.":
 	"Profil byl uložen. Na novou e-mailovou adresu jsme poslali potvrzovací odkaz; adresa se změní po jeho potvrzení."
+
+# descriptions of the privileges (permissionLabels in acl.neon)
+"Account page": "Stránka účtu"
+"Changing the name and email address": "Změna jména a e-mailové adresy"
+"Changing the password": "Změna hesla"

@@ -38,3 +38,5 @@ the profile (name and email) and the password change.
 ## Permissions
 
 The rules are in `Account/acl.neon`: the resource `Account`, for signed-in users.
+
+The same file describes the privileges (`permissionLabels`) for the permissions page of [Project Permission](https://github.com/drago-ex/project-permission).

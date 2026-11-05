@@ -1,4 +1,13 @@
 # Signed-in users may manage their own account.
+parameters:
+	# descriptions for the permissions page of drago-ex/project-permission
+	permissionLabels:
+		Account:
+			default: Account page
+			profile: Changing the name and email address
+			changePassword: Changing the password
+
+
 security:
 	resources:
 		Account:
