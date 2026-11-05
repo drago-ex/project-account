@@ -1,50 +1,22 @@
 # Agent Guide
 
-Use this file as package-specific guidance when working in this repository. Keep changes aligned with the existing public API, project conventions, and supported PHP range.
+`drago-ex/project-account` (type drago-tools-resource, PHP >=8.3 <9): the account page of the signed-in user
+(profile and password). The workspace rules are in `../AGENTS.md`; dependencies are in `composer.json`.
 
-## Package Overview
-- **Package**: `drago-ex/project-account`
-- **Type**: drago-tools-resource
-- **Purpose**: Account management for Drago Project.
-- **PHP**: >=8.3 <9
-- **Runtime dependencies**: drago-ex/translator (^4.0.1), drago-ex/component (^3.0), drago-ex/project-auth (^2.0)
-- **License**: MIT
+## Layout
+- `resources/app/Presentation/Account`: `AccountPresenter`, `@layout.latte`, `Factory/` (profile, password,
+  `CurrentPasswordVerifier`), `conf.neon`, `acl.neon` (resource `Account`, signed-in users), `Translate/cs.neon`.
+- `resources/assets/account.js` + `.scss`: an own Vite entry; `package.json` (with `name`) brings its npm
+  dependencies through `npm-loader.js` of drago-ex/project.
 
-## Repository Layout
-- `resources/app/Presentation/Account/acl.neon`: the ACL of the package (resources = presenter names, rules only for roles other than the administrator), merged by Nette with `role.acl.neon` of drago-ex/permission (required); a new presenter gets its resource in the `acl.neon` next to it. No bin script or providers.
-- `resources/`: application resources contributed to the consuming Drago project.
-- `.github/`: CI workflows; keep their PHP versions and commands consistent with Composer and the package scripts.
-- `composer.json`: package metadata, dependency constraints, autoloading, and available Composer scripts.
+## How it works
+- It uses the user model of project-auth (repository, password policy, email verification). Changing the password
+  generates a new user token, which ends the other sessions, and signs the current session in again with it.
+- Form limits must match the `users` columns of project-auth (name 50, email 254 characters).
+- project-auth must not know this package (no `class_exists()` checks there).
 
-## Key Parts
-- The account screen uses the user model of `project-auth`; changing the password generates a new user token, which ends other sessions, and signs the current session in again with it.
-- Form limits must match the `users` columns (name 50, email 254 characters).
-
-## Dependencies
-
-Composer constraints describe the package contract. Before changing integration behavior, inspect the source and the actual call sites in this package; do not infer runtime usage solely from dependency declarations.
-Development dependencies include nette/tester (^2.5), phpstan/phpstan-nette (^2.0), drago-ex/project-tools (^1.0).
-
-## Essential Commands
-
+## Commands
 ```bash
-composer phpstan                # phpstan analyse
-composer tester                 # tester tests -s -C
+composer phpstan
+composer tester
 ```
-
-## Tests
-
-Nette Tester tests are in `tests/`; run them with `composer tester`. `tests/bootstrap.php` autoloads `App\` classes from `resources/app`, then from `.dev-resource/app`, where `drago-install --dev` copies the resources of the dependencies (e.g. `drago-ex/project-auth`).
-
-## Installation Hooks
-
-Composer install and update hooks invoke Drago project setup/cleanup commands. Inspect those scripts and their effects before invoking Composer operations that trigger them; they may modify generated project files.
-
-## Conventions & Rules
-
-- Preserve backward compatibility unless the task explicitly permits a breaking change. Check callers and public signatures before changing behavior.
-- Follow the existing PHP style: strict types, explicit parameter and return types, tabs for indentation, and single-quoted strings where practical. Match nearby code when a convention is unclear.
-- Keep package-specific configuration, resources, and migrations in their established directories. Do not edit generated or consuming-project files without confirming they are part of this repository’s intended output.
-- Add or update focused tests for behavioral changes when this package has a runnable test setup. Do not invent test commands; use only the scripts and configuration present here.
-- Update README examples and Composer metadata when a public API or supported requirement changes.
-- `package.json` (user, 2026-11-04): `name` + `dependencies` of the npm packages the copied assets import; npm-loader of drago-ex/project installs the package from vendor with them (no `file:vendor/...` entries here: they would point inside this package; drago-ex libraries come from npm-loader, bootstrap and naja from the project).

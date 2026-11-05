@@ -1,6 +1,6 @@
 # Drago Project Account
 
-Account management for Drago Project.
+The account page of the signed-in user in Drago Project: changing the name, the email address and the password.
 
 [![PHP version](https://badge.fury.io/ph/drago-ex%2Fproject-account.svg)](https://badge.fury.io/ph/drago-ex%2Fproject-account)
 [![Coding Style](https://github.com/drago-ex/project-account/actions/workflows/coding-style.yml/badge.svg)](https://github.com/drago-ex/project-account/actions/workflows/coding-style.yml)
@@ -9,6 +9,7 @@ Account management for Drago Project.
 
 - PHP >= 8.3, < 9
 - [Drago Project](https://github.com/drago-ex/project)
+- [Project Auth](https://github.com/drago-ex/project-auth)
 
 ## Installation
 
@@ -16,40 +17,24 @@ Account management for Drago Project.
 composer require drago-ex/project-account
 ```
 
-### npm Installation
-
-The account management UI requires the theme switcher for proper functionality:
-```bash
-npm install theme-switcher-compostrap
-```
-
-## Files copied into the project
-
-The files are copied into the project by [drago-ex/project-tools](https://github.com/drago-ex/project-tools),
-as set in `extra.drago-tools` of this package's `composer.json`.
+[Project Tools](https://github.com/drago-ex/project-tools) copies the files of the package into the project,
+where you adapt them. The page has its own entry point `assets/account.js`; its npm dependencies (theme switcher,
+Font Awesome) are installed by `npm install` of the project.
 
 ## Usage
 
-The package adds an `Account` presenter for managing the current user account.
-It is intentionally outside the frontend and backend modules, so the same account
-screen can be linked from both parts of the application.
+```latte
+{link :Account:}
+```
 
-The presenter uses `drago-ex/project-auth` services for the current user,
-repository access and password hashing.
+The `Account` presenter is outside the front and backend modules, so both can link it. It has two forms:
+the profile (name and email) and the password change.
 
-The account screen provides two forms:
+- Changing the email address requires the current password; the new address applies after it is confirmed by
+  a link, and the previous address gets a notice.
+- Wrong current passwords are limited to 5 per user in 15 minutes.
+- New passwords follow the rules of Project Auth; changing the password signs out all other sessions.
 
-- profile information update
-- password change with current password verification
+## Permissions
 
-## Security
-- Changing the email address requires the current password.
-- Current password attempts are limited to 5 failures per user in 15 minutes.
-- New passwords follow the rules of `drago-ex/project-auth` (at least 12 characters).
-- Changing the password signs out all other sessions.
-- A new email address applies after it is confirmed by a link; the previous address gets a notice.
-
-## Access rules
-
-The access rules are in `app/Presentation/Account/acl.neon`: the resource `Account` for signed-in users.
-[drago-ex/permission](https://github.com/drago-ex/permission) merges them with its base roles, in which the administrator is allowed everything.
+The rules are in `Account/acl.neon`: the resource `Account`, for signed-in users.
