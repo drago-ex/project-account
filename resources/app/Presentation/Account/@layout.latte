@@ -34,8 +34,8 @@
 
 			{* language: an icon with the code of the current language, the languages in the dropdown *}
 			<div class="dropdown">
-				<button type="button" class="navbar-icon" data-bs-toggle="dropdown" aria-expanded="false" aria-label="{_'Language'}">
-					<i class="bi bi-translate" aria-hidden="true"></i><span class="navbar-icon-text">{$lang|upper}</span>
+				<button type="button" class="navbar-icon" data-bs-toggle="dropdown" aria-expanded="false">
+					<i class="bi bi-translate" aria-hidden="true"></i><span class="visually-hidden">{_'Language'}: </span><span class="navbar-icon-text">{$lang|upper}</span>
 				</button>
 				<ul class="dropdown-menu dropdown-menu-end">
 					<li><h6 class="dropdown-header">{_'Language'}</h6></li>
@@ -47,7 +47,7 @@
 			{* user: avatar, name and e-mail; the website, the administration, the theme and the sign out in the dropdown *}
 			<div class="dropdown ms-1">
 				{* a snippet: the name changes when the profile is saved *}
-				<button type="button" class="navbar-user" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" aria-label="{_'Menu'}" n:snippet="user">
+				<button type="button" class="navbar-user" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" n:snippet="user">
 					{var array $identity = $user->getIdentity()?->getData() ?? []}
 					{var string $username = (string) ($identity['username'] ?? '')}
 					<span class="avatar theme-primary">{$username|substr: 0, 2|upper}</span>
