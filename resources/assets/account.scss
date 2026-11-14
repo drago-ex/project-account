@@ -1,98 +1,48 @@
 @import 'core/base';
-@import 'core/admin-theme';
 @import 'naja/spinner';
-@import 'drago-form/styles/password-toggle';
-@import 'theme-switcher-compostrap/src/scss/theme-switcher';
-@import '@fortawesome/fontawesome-free/css/all.css';
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+
+// the account page takes the navbar and the boxes of the administration frame of compostrap (the module dashboard),
+// without a sidebar; its forms use the password toggle and the strength meter
+@import 'compostrap/src/scss/theme-switcher';
+@import 'compostrap/src/scss/password-toggle';
+@import 'compostrap/src/scss/strength';
+@import 'compostrap/src/scss/dashboard';
 
 //
 // account style
 //
 
-html,
-body {
-	min-height: 100%;
-}
-
+// the page color of the frame under the boxes, the footer at the bottom of a short page
 .account-page {
-	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
-	padding-top: 3.5rem;
-	color: var(--bs-body-color);
+	min-height: 100dvh;
 	background-color: var(--ds-body-bg);
 }
 
-.navbar {
-	background-color: var(--bs-body-bg) !important;
+// the navbar, the content and the footer share one readable width
+.account-container {
+	max-width: 72rem;
 }
 
-#theme-toggle {
-	padding: 0;
-	display: flex;
+.account-brand {
+	display: inline-flex;
+	gap: .625rem;
 	align-items: center;
-	justify-content: center;
-	gap: 0.35rem;
-	font-size: 0.875rem;
-	color: var(--bs-navbar-color);
+	font-size: 1.0625rem;
+	font-weight: 600;
+	color: var(--bs-emphasis-color);
 	text-decoration: none;
-	transition: color 0.15s ease-in-out;
-
-	&:hover {
-		color: var(--bs-navbar-hover-color);
-	}
-
-	&:focus {
-		box-shadow: none;
-		outline: none;
-	}
 }
 
 .account-main {
-	width: 100%;
-	padding-block: 2rem;
-}
-
-.account-hero {
-	width: 100%;
-	max-width: 52rem;
-	margin-inline: auto;
-	margin-bottom: 1.5rem;
-}
-
-.account-card {
-	width: 100%;
-	max-width: 52rem;
-	margin-inline: auto;
-	overflow: hidden;
-	background-color: var(--bs-body-bg);
-}
-
-.account-tabs {
-	background-color: var(--bs-secondary-bg);
-
-	.nav-tabs {
-		border-bottom: 0;
-	}
-
-	.nav-link {
-		color: var(--bs-secondary-color);
-		border: 0;
-		border-radius: var(--bs-border-radius) var(--bs-border-radius) 0 0;
-		font-weight: 600;
-
-		&:hover,
-		&:focus {
-			color: var(--bs-body-color);
-		}
-
-		&.active {
-			color: var(--bs-body-color);
-			background-color: var(--bs-body-bg);
-		}
-	}
+	flex: 1 0 auto;
+	padding-block: .75rem 1.5rem;
 }
 
 .account-footer {
-	background-color: transparent;
+	padding-block: 0 1.5rem;
+	color: var(--bs-secondary-color);
+	text-align: center;
 }

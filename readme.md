@@ -18,8 +18,8 @@ composer require drago-ex/project-account
 ```
 
 [Project Tools](https://github.com/drago-ex/project-tools) copies the files of the package into the project,
-where you adapt them. The page has its own entry point `assets/account.js`; its npm dependencies (theme switcher,
-Font Awesome) are installed by `npm install` of the project.
+where you adapt them. The page has its own entry point `assets/account.js`; its npm dependencies
+([compostrap](https://github.com/compostrap/compostrap), Bootstrap Icons) are installed by `npm install` of the project.
 
 ## Usage
 
@@ -27,8 +27,10 @@ Font Awesome) are installed by `npm install` of the project.
 {link :Account:}
 ```
 
-The `Account` presenter is outside the front and backend modules, so both can link it. It has two forms:
-the profile (name and email) and the password change.
+The `Account` presenter is outside the front and backend modules, so both can link it. The page shows who is
+signed in (name, roles, email address) and two forms next to each other: the profile (name and email) and the
+password change, where a new password shows its strength while it is typed. The menu of the navbar leads to the
+website and to the administration (for users who may open it), switches the theme and signs out.
 
 - Changing the email address requires the current password; the new address applies after it is confirmed by
   a link, and the previous address gets a notice.

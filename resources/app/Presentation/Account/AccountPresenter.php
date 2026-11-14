@@ -52,6 +52,10 @@ final class AccountPresenter extends BasePresenter
 	{
 		$form = $this->profileFactory->create($this->lang);
 		$form->onSuccess[] = function () {
+			// the identity is read again from the database, so the navbar and the box above the forms show the new name
+			$this->getUser()->refreshStorage();
+			$this->redrawControl('user');
+			$this->redrawControl('identity');
 			$this->flashMessage($this->profileFactory->isEmailChangePending()
 				? 'Profile has been saved. We have sent a confirmation link to the new email address; the address changes after you confirm it.'
 				: 'Profile has been saved.', Alert::Success);

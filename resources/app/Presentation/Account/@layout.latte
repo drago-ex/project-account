@@ -1,6 +1,7 @@
 {templateType App\Presentation\Account\AccountTemplate}
 {varType Drago\Application\UI\Flashes[] $flashes}
 {import '../Accessory/Widget/@brand.latte'}
+{import '../Accessory/Widget/@lang-switch.latte'}
 
 <!doctype html>
 <html lang="{$lang}" data-bs-theme="light">
@@ -8,67 +9,81 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	{* the remembered theme before the page is drawn, so a dark page does not flash light until the ThemeSwitcher script runs *}
-	<script>try { const theme = localStorage.getItem('bootstrap-theme'); if (theme === 'light' || theme === 'dark') { document.documentElement.setAttribute('data-bs-theme', theme); } } catch (e) { }</script>
+	{* the remembered theme (without one, or with auto, the theme of the system) before the page is drawn, so a dark
+	   page does not flash light until the ThemeSwitcher script runs *}
+	<script>try { let theme = localStorage.getItem('bootstrap-theme') || 'auto'; if (theme === 'auto') { theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; } if (theme === 'light' || theme === 'dark') { document.documentElement.setAttribute('data-bs-theme', theme); } } catch (e) { }</script>
+	<meta name="robots" content="noindex, nofollow">
 	<title>{ifset title}{include title|stripHtml|firstUpper} &bull; {/ifset}{include brand|stripHtml}</title>
 
 	{asset 'account.js'}
 </head>
 
-<body class="account-page">
+{* the page of a signed-in user outside the administration: the navbar and the boxes of the compostrap frame without
+   a sidebar. The texts of the password strength meter are translated here, the script reads them from the body *}
+<body class="account-page" data-strength-min-length="{App\Presentation\Sign\PasswordPolicy::MinLength}"
+	data-strength-weak="{_'Weak'}" data-strength-fair="{_'Fair'}" data-strength-good="{_'Good'}" data-strength-strong="{_'Strong'}">
 
-<header>
-	<nav class="navbar navbar-expand-md fixed-top">
-		<div class="container-fluid">
-			<a class="navbar-brand" n:href=":Account:">
-				<i class="fa-brands fa-medapps text-primary"></i>
-				<span class="text-body-emphasis">
-					{include brand}
-				</span>
-			</a>
+<header class="navbar navbar-content sticky-top">
+	<div class="container account-container">
+		<a class="account-brand" n:href=":Front:Home:">
+			{include brand-logo}
+			<span>{include brand}</span>
+		</a>
 
-			<div class="ms-auto d-flex align-items-center">
+		<div class="ms-auto d-flex align-items-center gap-1">
 
-				{embed '../Accessory/Widget/@dropdown.latte', name: 'Translate', icon: 'fa-solid fa-language', menu: 'end'}
-					{import '../Accessory/Widget/@lang-switch.latte'}
-					{block menu}
-						{include lang-switch, lang: 'cs', name: 'Czech', class: 'dropdown-item', tag: 'li'}
-						{include lang-switch, lang: 'en', name: 'English', class: 'dropdown-item', tag: 'li'}
-					{/block}
-				{/embed}
+			{* language: an icon with the code of the current language, the languages in the dropdown *}
+			<div class="dropdown">
+				<button type="button" class="navbar-icon" data-bs-toggle="dropdown" aria-expanded="false" aria-label="{_'Language'}">
+					<i class="bi bi-translate" aria-hidden="true"></i><span class="navbar-icon-text">{$lang|upper}</span>
+				</button>
+				<ul class="dropdown-menu dropdown-menu-end">
+					<li><h6 class="dropdown-header">{_'Language'}</h6></li>
+					{include lang-switch-item, lang: 'cs', name: 'Czech', current: $lang}
+					{include lang-switch-item, lang: 'en', name: 'English', current: $lang}
+				</ul>
+			</div>
 
-				{embed '../Accessory/Widget/@dropdown.latte', name: 'Menu', icon: 'fa-solid fa-bars', menu: 'end'}
-					{block menu}
-						{include item, name: 'Homepage', link: ':Front:Home:'}
-						{include item, name: 'Administration', link: ':Backend:Admin:'}
-						{include divider}
-						<li>
-							{include '../Accessory/Widget/@theme-switch.latte', class: 'dropdown-item'}
-						</li>
-						{include divider}
-						{include item, name: 'Sign out', link: ':Sign:out'}
-					{/block}
-				{/embed}
+			{* user: avatar, name and e-mail; the website, the administration, the theme and the sign out in the dropdown *}
+			<div class="dropdown ms-1">
+				{* a snippet: the name changes when the profile is saved *}
+				<button type="button" class="navbar-user" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" aria-label="{_'Menu'}" n:snippet="user">
+					{var array $identity = $user->getIdentity()?->getData() ?? []}
+					{var string $username = (string) ($identity['username'] ?? '')}
+					<span class="avatar theme-primary">{$username|substr: 0, 2|upper}</span>
+					<span class="d-none d-md-block"><span class="navbar-user-name">{$username}</span><span class="navbar-user-role">{$identity['email'] ?? ''}</span></span>
+				</button>
+				<ul class="dropdown-menu dropdown-menu-end">
+					<li><a class="dropdown-item" n:href=":Front:Home:"><i class="bi bi-house-door me-2" aria-hidden="true"></i>{_'Homepage'}</a></li>
+					{* only for a user who may open it; false also in a project without the administration *}
+					<li n:if="Drago\Permission\Privilege::isAllowed($user, 'Backend:Admin', 'default')"><a class="dropdown-item" n:href=":Backend:Admin:"><i class="bi bi-speedometer2 me-2" aria-hidden="true"></i>{_'Administration'}</a></li>
+					<li><hr class="dropdown-divider"></li>
+					{* the theme: light, dark or the one of the system; the menu stays open (auto-close outside) *}
+					<li class="dropdown-theme">
+						<span class="dropdown-theme-label">{_'Theme'}</span>
+						<div class="btn-group btn-group-segmented" role="group" aria-label="{_'Theme'}">
+							<button type="button" class="btn btn-sm" data-theme-value="light"><i class="bi bi-sun" aria-hidden="true"></i>{_'Light'}</button>
+							<button type="button" class="btn btn-sm" data-theme-value="dark"><i class="bi bi-moon" aria-hidden="true"></i>{_'Dark'}</button>
+							<button type="button" class="btn btn-sm" data-theme-value="auto"><i class="bi bi-display" aria-hidden="true"></i>{_'Auto'}</button>
+						</div>
+					</li>
+					<li><hr class="dropdown-divider"></li>
+					<li><a class="dropdown-item" n:href=":Sign:out"><i class="bi bi-box-arrow-right me-2" aria-hidden="true"></i>{_'Sign out'}</a></li>
+				</ul>
 			</div>
 		</div>
-	</nav>
+	</div>
 </header>
 
-<main role="main" class="account-main flex-shrink-0">
-	<div class="container">
-		{snippet message}
-			{include '../Accessory/Widget/@toast.latte', flashes: $flashes}
-		{/snippet}
+<main role="main" class="container account-container account-main">
+	{snippet message}
+		{include '../Accessory/Widget/@toast.latte', flashes: $flashes}
+	{/snippet}
 
-		{include content}
-	</div>
+	{include content}
 </main>
 
-<footer class="account-footer mt-auto py-4">
-	<div class="container">
-		<p class="mb-0 text-center text-body-secondary small">&copy {include brand|stripHtml}</p>
-	</div>
-</footer>
+<footer class="container account-container account-footer">&copy; {=date('Y')} {include brand|stripHtml}</footer>
 
 </body>
 </html>

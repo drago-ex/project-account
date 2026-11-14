@@ -1,66 +1,96 @@
 {templateType App\Presentation\Account\AccountTemplate}
+
 {block content}
+	{* who is signed in *}
+	<div class="content-box mb-3">
+		<header class="mb-4 pb-2 border-bottom">
+			<h1 n:block="title" class="h5 mb-1">{_'Account'}</h1>
+			<p class="small text-body-secondary mb-0">{_'Manage your personal information and account security.'}</p>
+		</header>
 
-	<section class="account-hero">
-		<h1 n:block="title" class="display-6 fs-2 mb-2">{_'Account'}</h1>
-		<p class="text-body-secondary mb-0">{_'Manage your personal information and account security.'}</p>
-	</section>
+		{* a snippet: the name changes when the profile is saved, so its variables are set inside *}
+		<div n:snippet="identity" class="d-flex flex-wrap align-items-center gap-3">
+			{var array $identity = $user->getIdentity()?->getData() ?? []}
+			{var string $username = (string) ($identity['username'] ?? '')}
+			{* the base roles have a translated name, a custom role is shown by its name *}
+			{var array $roleLabels = [Drago\Permission\Role::Admin => 'Administrator', Drago\Permission\Role::User => 'User']}
+			<span class="avatar avatar-lg theme-primary">{$username|substr: 0, 2|upper}</span>
+			<div class="me-auto">
+				<div class="fw-semibold">
+					{$username}
+					{foreach $user->getRoles() as $role}
+						<span class="badge badge-subtle theme-primary ms-1">{isset($roleLabels[$role]) ? ($roleLabels[$role]|translate) : $role}</span>
+					{/foreach}
+				</div>
+				<div class="text-body-secondary">{$identity['email'] ?? ''}</div>
+			</div>
+		</div>
+	</div>
 
-	{var $tabs = [
-		[
-			id: 'profile-info',
-			label: 'Profile information',
-			heading: 'Profile information',
-			description: 'Update the name and email address used for your account.',
-			block: 'profile',
-		],
-		[
-			id: 'profile-password',
-			label: 'Change password',
-			heading: 'Change password',
-			description: 'Use a strong password to keep your account protected.',
-			block: 'changePassword',
-		],
-	]}
+	{* the two forms stand next to each other, so nothing is hidden in tabs; under each other below xl *}
+	<div class="row g-3">
+		<div class="col-xl-6">
+			<div class="content-box h-100">
+				<header class="mb-4 pb-2 border-bottom">
+					<h2 class="h5 mb-1">{_'Profile information'}</h2>
+					<p class="small text-body-secondary mb-0">{_'Update the name and email address used for your account.'}</p>
+				</header>
 
-	<div class="account-card bg-body rounded-3 shadow-sm">
-		{embed '../Accessory/Widget/@tabs.latte',
-			tabs: $tabs,
-			headerClass: 'account-tabs px-3 px-md-4 pt-3',
-			contentClass: 'p-3 p-md-4',
-		}
-			{block profile}
 				{snippet profile}
 					{embed '../Accessory/Widget/@form.latte', class: 'ajax', name: 'profile', najaHistory: 'off'}
 						{import '../Accessory/Widget/@form-password.latte'}
 						{block form}
 							{include input, name: 'username'}
-							{include input, name: 'email'}
-							<p class="col-12 small text-body-secondary mb-0">{_'Changing the email address requires your current password.'}</p>
+							<div class="col-12 form-error">
+								{label email, class => 'form-label fw-semibold' /}
+								{input email, class => 'form-control', aria-describedby => 'account-email-help'}
+								<div class="form-text" id="account-email-help">{_'Changing the email address requires your current password.'}</div>
+							</div>
 							{include password-toggle, name: 'currentPassword'}
-							<div class="col-12">
+							<div class="col-12 d-flex justify-content-end">
 								{include submit, name: 'send'}
 							</div>
 						{/block}
 					{/embed}
 				{/snippet}
-			{/block}
+			</div>
+		</div>
 
-			{block changePassword}
+		<div class="col-xl-6">
+			<div class="content-box h-100">
+				<header class="mb-4 pb-2 border-bottom">
+					<h2 class="h5 mb-1">{_'Change password'}</h2>
+					<p class="small text-body-secondary mb-0">{_'Use a strong password to keep your account protected.'}</p>
+				</header>
+
 				{snippet changePassword}
 					{embed '../Accessory/Widget/@form.latte', class: 'ajax', name: 'changePassword', najaHistory: 'off'}
 						{import '../Accessory/Widget/@form-password.latte'}
 						{block form}
 							{include password-toggle, name: 'currentPassword'}
-							{include password-toggle, name: 'password'}
+							{* the new password shows its strength while it is typed (the module strength of compostrap) *}
+							<div class="col-12 form-error">
+								{label password, class => 'form-label fw-semibold' /}
+								<div class="password-toggle">
+									{input password, class => 'form-control', aria-describedby => 'account-strength'}
+									<button type="button" class="password-toggle-btn" data-password-toggle aria-label="{_'Show password'}" aria-pressed="false"></button>
+								</div>
+								<div class="strength" data-bs-strength>
+									<div class="strength-segment"></div>
+									<div class="strength-segment"></div>
+									<div class="strength-segment"></div>
+									<div class="strength-segment"></div>
+								</div>
+								<span class="strength-text" id="account-strength" aria-live="polite"></span>
+							</div>
 							{include password-toggle, name: 'verify'}
-							<div class="col-12">
+							<div class="col-12 d-flex justify-content-end">
 								{include submit, name: 'send'}
 							</div>
 						{/block}
 					{/embed}
 				{/snippet}
-			{/block}
-		{/embed}
+			</div>
+		</div>
 	</div>
 {/block}
