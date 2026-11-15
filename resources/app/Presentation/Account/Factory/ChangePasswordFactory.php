@@ -14,6 +14,7 @@ use Nette\Security\Passwords;
 use Nette\Security\SimpleIdentity;
 use Nette\Security\User;
 use Nette\Utils\Random;
+use Throwable;
 
 
 readonly class ChangePasswordFactory
@@ -55,6 +56,7 @@ readonly class ChangePasswordFactory
 	/**
 	 * Checks the current password once the other fields are valid, so mistakes in them do not use up attempts.
 	 * @throws Exception
+	 * @throws Throwable
 	 */
 	private function validateCurrentPassword(Form $form): void
 	{

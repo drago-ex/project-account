@@ -5,6 +5,7 @@ namespace App\Presentation\Account\Factory;
 use App\Model\User\UserEntity;
 use App\Presentation\Sign\RateLimiter;
 use Nette\Security\Passwords;
+use Throwable;
 
 
 /**
@@ -26,7 +27,10 @@ readonly class CurrentPasswordVerifier
 	}
 
 
-	/** Returns an error message, or null when the password is correct. */
+	/**
+	 * Returns an error message, or null when the password is correct.
+	 * @throws Throwable
+	 */
 	public function verify(UserEntity $user, #[\SensitiveParameter] string $password): ?string
 	{
 		$subject = (string) $user->id;

@@ -11,6 +11,7 @@ use Drago\Form\Autocomplete;
 use Nette\Application\UI\Form;
 use Nette\Application\UI\InvalidLinkException;
 use Nette\Forms\Controls\BaseControl;
+use Throwable;
 
 
 class ProfileFactory
@@ -70,7 +71,10 @@ class ProfileFactory
 	}
 
 
-	/** @throws Exception */
+	/**
+	 * @throws Exception
+	 * @throws Throwable
+	 */
 	private function validateEmailChange(Form $form): void
 	{
 		$currentUser = $this->userFactory->getCurrentUser();
