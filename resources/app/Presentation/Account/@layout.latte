@@ -55,9 +55,9 @@
 					<span class="d-none d-md-block"><span class="navbar-user-name">{$username}</span><span class="navbar-user-role">{$identity['email'] ?? ''}</span></span>
 				</button>
 				<ul class="dropdown-menu dropdown-menu-end">
-					<li><a class="dropdown-item" n:href=":Front:Home:"><i class="bi bi-house-door me-2" aria-hidden="true"></i>{_'Homepage'}</a></li>
+					<li><a class="dropdown-item" n:href=":Front:Home:"><i class="bi bi-globe me-2" aria-hidden="true"></i>{_'Homepage'}</a></li>
 					{* only for a user who may open it; false also in a project without the administration *}
-					<li n:if="Drago\Permission\Privilege::isAllowed($user, 'Backend:Admin', 'default')"><a class="dropdown-item" n:href=":Backend:Admin:"><i class="bi bi-speedometer2 me-2" aria-hidden="true"></i>{_'Administration'}</a></li>
+					<li n:if="Drago\Permission\Privilege::isAllowed($user, 'Backend:Admin', 'default')"><a class="dropdown-item" n:href=":Backend:Admin:"><i class="bi bi-house-door me-2" aria-hidden="true"></i>{_'Administration'}</a></li>
 					<li><hr class="dropdown-divider"></li>
 					{* the theme: light, dark or the one of the system; the menu stays open (auto-close outside) *}
 					<li class="dropdown-theme">
