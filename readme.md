@@ -19,12 +19,17 @@ composer require drago-ex/project-account
 
 [Project Tools](https://github.com/drago-ex/project-tools) copies the files of the package into the project,
 where you adapt them. The page has its own entry point `assets/account.js`; its npm dependencies
-([compostrap](https://github.com/compostrap/compostrap), Bootstrap Icons) are installed by `npm install` of the project.
+([compostrap](https://github.com/compostrap/compostrap), Bootstrap Icons) are installed by `npm install` of the
+project, then build the assets again (`npm run vite:build`).
 
 ## Usage
 
+The page is at `/account` (`/en/account` in English). [Backend UI](https://github.com/drago-ex/project-backend-ui)
+and [Front UI](https://github.com/drago-ex/project-front-ui) link it from their user menus; without them, link it
+in your layout:
+
 ```latte
-{link :Account:}
+<a n:href=":Account:">{_'Account'}</a>
 ```
 
 The `Account` presenter is outside the front and backend modules, so both can link it. The page shows who is
